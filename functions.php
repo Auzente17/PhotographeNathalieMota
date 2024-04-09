@@ -1,14 +1,16 @@
 <?php
 
 function theme_enqueue_scripts_and_styles() {
-  // Enregistrer le style
-  wp_enqueue_style( 'PhotographeNathalieMota-style', get_stylesheet_directory_uri() . '/sass/style.css', array(), '1.0.0', true );
+
+  wp_enqueue_style( 'thème-style', get_template_directory_uri() . '/style.css' );
+
+  // Enregistrer le style principal du thème
+  wp_enqueue_style('PhotographeNathalieMota-style', get_stylesheet_directory_uri() . '/css/style.css', array(), time());
 
   // Enregistrer la feuille de script
-  wp_enqueue_script( 'PhotographeNathalieMota-script', get_stylesheet_directory_uri(), array(), '1.0.0' );
+  wp_enqueue_script( 'PhotographeNathalieMota-script', get_stylesheet_directory_uri() . '/js/script.js', array(), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles' );
-
 
 // Enregistrer les emplacements de menus: Menu principal et Menu pied de page
 function enregistrer_menus() {

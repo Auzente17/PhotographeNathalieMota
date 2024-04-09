@@ -5,7 +5,7 @@
         // Fonction pour le menu footer
         wp_nav_menu( array(
   'theme_location' => 'menu-pied-de-page',
-  'menu_class'     => 'menu',
+  'menu_class'     => 'footer-menu',
 ) );
 ?>
 </nav>
