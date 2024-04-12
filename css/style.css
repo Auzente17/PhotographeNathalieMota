@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "Poppins-Bold";
   font-weight: bold;
@@ -113,7 +114,7 @@ footer .footer-menu {
   padding: 0;
 }
 footer .footer-menu li {
-  margin: 0 70px;
+  margin: 0 60px;
 }
 footer .footer-menu li a {
   font-family: "Space Mono", sans-serif;
@@ -124,4 +125,80 @@ footer .footer-menu li a {
 }
 footer .footer-menu li a:hover {
   font-weight: 700;
+}
+
+.popup__overlay {
+  display: none; /*Masqué par défaut */
+  position: fixed; /* Rester en place */
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Ajoute un effet d'assombrissement transparent */
+  justify-content: center;
+  align-items: center;
+}
+.popup__overlay .popup__contact {
+  position: relative;
+  background: white;
+  min-width: 600px;
+  width: 70%;
+  padding: 15px 0;
+  border: 3px solid #000000;
+  margin: auto;
+}
+.popup__overlay .popup__contact .popup-title__container .popup__close {
+  position: absolute;
+  height: 110px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+.popup__overlay .popup__contact .popup-title__container img {
+  max-width: 100%;
+  height: auto;
+  padding-bottom: 20px;
+}
+.popup__overlay .popup__contact .popup__informations {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 265px;
+  margin: auto;
+}
+.popup__overlay .popup__contact .wpcf7-form {
+  display: flex;
+  flex-direction: column;
+}
+.popup__overlay .popup__contact .wpcf7-form p {
+  margin: 5px;
+  padding-top: 0px;
+  width: 100%;
+}
+.popup__overlay .popup__contact .wpcf7-form p label {
+  font-family: "PoppinsRegular", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.popup__overlay .popup__contact .wpcf7-form p input {
+  height: 40px;
+}
+.popup__overlay .popup__contact .wpcf7-form p .wpcf7-text,
+.popup__overlay .popup__contact .wpcf7-form p .wpcf7-email,
+.popup__overlay .popup__contact .wpcf7-form p textarea {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  margin-top: 5px;
+}
+.popup__overlay .popup__contact .wpcf7-form p .wpcf7-text:focus,
+.popup__overlay .popup__contact .wpcf7-form p .wpcf7-email:focus,
+.popup__overlay .popup__contact .wpcf7-form p textarea:focus {
+  border: 3px solid #000000;
+  background-color: rgba(175, 174, 174, 0.151);
+}
+.popup__overlay .popup__contact .wpcf7-form-control.wpcf7-submit {
+  width: 100%;
 }/*# sourceMappingURL=style.css.map */

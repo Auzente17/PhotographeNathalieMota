@@ -7,11 +7,11 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class('mainContainer'); ?>>
     
 <header>
         <nav id="nav-bar" class="navbar">
-            <!-- Ajouter le menu ici -->
+          
             <!-- Logo -->
             <div class="navbar__logo">
                 <a href="<?php echo esc_url( home_url( '/')); ?>">
@@ -25,9 +25,11 @@
                 // fonction pour afficher le menu WP
                 wp_nav_menu( array(
                     'theme_location' => 'menu-principal',
+                    'container'      => 'false',
                     'menu_class'     => 'menu',
                 ) );
                 ?>
+                
             </div>
         </nav>
     </header>
