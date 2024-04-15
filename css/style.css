@@ -142,7 +142,7 @@ footer .footer-menu li a:hover {
 .popup__overlay .popup__contact {
   position: relative;
   background: white;
-  min-width: 600px;
+  max-width: 600px;
   width: 70%;
   padding: 15px 0;
   border: 3px solid #000000;
