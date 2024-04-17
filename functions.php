@@ -15,6 +15,19 @@ function theme_enqueue_scripts_and_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles' );
 
+// Fonction pour ajouter la prise en charge du logo personnalisé dans le thème
+// prise en charge du logo personnalisé avec des dimensions flexibles
+function nathaliemota_theme_setup() {
+  add_theme_support( 'custom-logo', array(
+    'height'      => 14,
+    'width'       => 216,
+    'flex-height' => true,
+    'flex-width'  => true,
+    'header-text' => array( 'site-title', 'site-description' ), // Afficher le titre et la description du site dans l'en-tête
+    ) );
+}
+add_action( 'after_setup_theme', 'nathaliemota_theme_setup' );
+
 // Enregistrer les emplacements de menus: Menu principal et Menu pied de page
 function enregistrer_menus() {
     register_nav_menus(
@@ -27,4 +40,4 @@ function enregistrer_menus() {
   add_action( 'init', 'enregistrer_menus' );
 
 
-
+  

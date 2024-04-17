@@ -201,4 +201,599 @@ footer .footer-menu li a:hover {
 }
 .popup__overlay .popup__contact .wpcf7-form-control.wpcf7-submit {
   width: 100%;
+}
+
+/* Styles pour single-photographie.php */
+/* La galerie de photos occupe toute la largeur et est en colonne */
+.photos__gallery {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+@media screen and (max-width: 820px) {
+  .photos__gallery {
+    height: 100%;
+    margin-top: 58px; /* Ajustement du margin-top pour les petits écrans */
+  }
+}
+
+/* Détails de la photo, disposition flexible avec option pour les petits écrans */
+.photo__detail {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+@media screen and (max-width: 765px) {
+  .photo__detail {
+    flex-direction: column; /* Changement de disposition pour les petits écrans */
+  }
+}
+
+/* Conteneur de la photo avec une disposition flexible et ajustements pour les petits écrans */
+.photo__detail .photo__container {
+  object-fit: cover;
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+@media screen and (max-width: 820px) {
+  .photo__detail .photo__container {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Superposition au survol de la photo avec une transition d'opacité et de couleur */
+.singlePhotoOverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0);
+  opacity: 0;
+  transition: background-color 0.3s, opacity 0.3s;
+  cursor: pointer;
+  /* Superposition visible au survol de la photo */
+}
+.photo__container:hover .singlePhotoOverlay {
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.8);
+  /* Affichage d'une icône en plein écran au survol */
+}
+.photo__container:hover .singlePhotoOverlay .icon__fullscreen {
+  display: block;
+}
+
+/* Icône en plein écran cachée par défaut, position ajustée pour différents écrans */
+.singlePhotoOverlay .icon__fullscreen {
+  display: none;
+  position: absolute;
+  left: 92%;
+  top: 2%;
+  width: 34px;
+  height: 34px;
+}
+@media screen and (max-width: 1140px) {
+  .singlePhotoOverlay .icon__fullscreen {
+    left: 86%;
+    top: 4%;
+  }
+}
+@media screen and (max-width: 765px) {
+  .singlePhotoOverlay .icon__fullscreen {
+    left: 82%;
+  }
+}
+
+/* Affichage de l'icône en plein écran au survol de la photo */
+.photo__container:hover .icon__fullscreen {
+  display: block;
+}
+
+/* Style de l'image principale */
+.photo__detail img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Section principale de la page, disposition flexible, largeur maximale ajustée pour différents écrans */
+.photos__catalog {
+  display: flex;
+  flex-direction: column;
+  padding-top: 58px;
+  max-width: 80%;
+  margin: auto;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 765px) {
+  .photos__catalog {
+    max-width: 375px;
+  }
+}
+@media screen and (max-width: 475px) {
+  .photos__catalog {
+    max-width: 305px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .photos__catalog {
+    max-width: 245px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .photos__catalog {
+    max-width: 220px;
+  }
+}
+
+/* Informations sur la photo, largeur ajustée pour différents écrans */
+.photo__info {
+  width: 48%;
+  text-align: left;
+  border-bottom: solid black 1px;
+  padding-bottom: 30px;
+  /* Ajustements pour les petits écrans */
+  /* Ajustements supplémentaires pour les écrans très petits */
+  /* Style du titre de la photo */
+  /* Style des paragraphes d'informations */
+}
+@media screen and (max-width: 820px) {
+  .photo__info {
+    width: 100%;
+    left: 10px;
+    position: relative;
+  }
+}
+@media screen and (max-width: 420px) {
+  .photo__info {
+    left: 0;
+  }
+}
+.photo__info h2 {
+  margin: 20px 0;
+  width: 420px;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 820px) {
+  .photo__info h2 {
+    width: 262px;
+    height: 96px;
+  }
+}
+.photo__info p {
+  font-family: space_monoregular;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Style de la section d'informations sur la photo */
+.photo__taxo {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conteneur pour les coordonnées de contact, disposition flexible avec ajustements pour les petits écrans */
+.contact__container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 118px;
+  align-items: center;
+  border-bottom: solid black 1px;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 820px) {
+  .contact__container {
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+/* Style du texte de contact */
+.contact__container p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: PoppinsRegular;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 21px;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 820px) {
+  .contact__container p {
+    font-family: PoppinsRegular;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 21px;
+    letter-spacing: 0em;
+    width: 263px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Conteneur pour le bouton de contact et la disposition flexible avec ajustements pour les petits écrans */
+.contact__container .contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 820px) {
+  .contact__container .contact {
+    flex-direction: column;
+  }
+}
+
+/* Style du bouton de contact avec des ajustements pour différents écrans */
+#contact__button {
+  cursor: pointer;
+  border: white;
+  background: #d8d8d8;
+  width: 272px;
+  height: 50px;
+  font-family: "space_monoregular";
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 2px;
+  margin-right: 23px;
+  /* Ajustements pour les petits écrans */
+  /* Effets de survol */
+}
+@media screen and (max-width: 820px) {
+  #contact__button {
+    width: 263px;
+  }
+}
+@media screen and (max-width: 420px) {
+  #contact__button {
+    width: 175px;
+    margin-right: 0;
+  }
+}
+#contact__button:hover {
+  background-color: black;
+  color: white;
+  transition: background-color 0.6s ease-in, color 0.6s ease-in;
+}
+
+/* Styles pour l'affichage des vignettes au survol des flèches */
+/* Conteneur pour la navigation entre les photos */
+.navPhotos {
+  width: 50%;
+  height: 118px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 820px) {
+  .navPhotos {
+    display: none;
+  }
+}
+
+/* Conteneur pour les flèches de navigation et positionnement relatif */
+.navArrow {
+  width: 81px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 10px;
+  height: 118px;
+  /* Styles pour les flèches */
+}
+.navArrow .arrow {
+  width: 25px;
+  height: auto;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+  /* Affichage des miniatures au survol */
+  /* Positionnement des flèches */
+}
+.navArrow .arrow:hover + .miniature {
+  display: flex !important;
+}
+.navArrow .arrow .arrow-left {
+  top: 10px;
+  position: relative;
+}
+.navArrow .arrow .arrow-right {
+  top: 10px;
+  position: relative;
+}
+
+/* Conteneur pour les miniatures avec une transition de fondu */
+.miniature-content {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Styles pour les miniatures et effets de survol */
+.miniature,
+.miniature-left,
+.miniature-right {
+  visibility: hidden;
+  opacity: 0;
+  position: relative;
+  height: 71px;
+  width: 81px;
+  top: 8px;
+  transition: visibility 0.3s, opacity 0.3s linear;
+  /* Styles pour les liens des miniatures */
+}
+.miniature a,
+.miniature-left a,
+.miniature-right a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Styles pour les images des miniatures */
+}
+.miniature a img,
+.miniature-left a img,
+.miniature-right a img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Affichage des miniatures au survol des flèches */
+.arrow:hover + .miniature,
+.arrow:hover + .miniature-left,
+.arrow:hover + .miniature-right {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Style du texte pour indiquer l'intérêt */
+.interested {
+  font-family: space_monoregular;
+  font-size: 14px;
+}
+
+/* Style du texte si aucune photo similaire n'est trouvée */
+.photoNotFound {
+  font-family: PoppinsRegular;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Titre pour la section de suggestions avec des ajustements pour les petits écrans */
+.title__suggestion {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 3%;
+  /* Ajustements pour les petits écrans */
+}
+@media screen and (max-width: 1140px) {
+  .title__suggestion {
+    display: flex;
+    margin: 10px 0 0 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Style du titre des suggestions */
+.title__suggestion h3 {
+  font-family: space_monoregular;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0.1em;
+  margin-top: 6%;
+}
+
+/* Conteneur pour les photos similaires avec ajustements pour les petits écrans */
+.photo__similar {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  /* Ajustements pour les petits écrans */
+  /* Ajustements supplémentaires pour les très petits écrans */
+}
+@media screen and (max-width: 820px) {
+  .photo__similar {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 375px) {
+  .photo__similar {
+    padding-top: 30px;
+  }
+}
+
+/* Style pour la section de suggestions avec ajustements pour les petits écrans */
+@media screen and (max-width: 375px) {
+  .suggestions {
+    padding: 30px 40px;
+  }
+}
+
+/******************************************/
+/***** CSS POUR LES PHOTOS SIMILAIRES *****/
+/******************************************/
+/* Styles pour chaque bloc des photos  */
+.block__photo {
+  flex-shrink: 0;
+  position: relative;
+  width: 564px;
+  height: 495px;
+  margin-bottom: 4px;
+  /* Ajustements responsives */
+  /* Styles pour l'overlay et les icônes au survol */
+  /* Styles pour l'overlay au survol de l'image */
+}
+@media screen and (min-width: 765px) and (max-width: 1140px) {
+  .block__photo {
+    width: 370px;
+  }
+}
+@media screen and (max-width: 765px) {
+  .block__photo {
+    width: 318px;
+    height: 279px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .block__photo {
+    width: 260px;
+  }
+}
+.block__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.block__photo .overlay:hover .eye-icon,
+.block__photo .overlay:hover .icon-fullscreen {
+  display: block;
+}
+.block__photo .overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: opacity 0.3s, background-color 0.3s;
+  /* Ajustements responsives au survol */
+  /* Styles pour les titres dans l'overlay */
+  /* Styles pour l'icône de l'œil au survol */
+  /* Styles pour l'icône de plein écran au survol */
+}
+.block__photo .overlay:hover {
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.8);
+  /* Affichage des titres au survol */
+}
+.block__photo .overlay:hover h2,
+.block__photo .overlay:hover h3 {
+  display: block;
+  font-family: PoppinsRegular;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  text-transform: uppercase;
+  position: absolute;
+  color: white;
+}
+.block__photo .overlay h2 {
+  left: 15px;
+  top: 435px;
+  display: none;
+  /* Ajustements responsives */
+}
+@media screen and (max-width: 765px) {
+  .block__photo .overlay h2 {
+    top: 227px;
+    font-size: 12px;
+  }
+}
+.block__photo .overlay h3 {
+  left: 478px;
+  top: 450px;
+  display: none;
+  /* Ajustements responsives */
+}
+@media screen and (min-width: 765px) and (max-width: 1140px) {
+  .block__photo .overlay h3 {
+    left: 289px;
+  }
+}
+@media screen and (max-width: 765px) {
+  .block__photo .overlay h3 {
+    left: 230px;
+    top: 241px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .block__photo .overlay h3 {
+    left: 185px;
+    top: 241px;
+  }
+}
+.block__photo .overlay .eye-icon {
+  width: 48px;
+  height: 33.2px;
+  top: 231.4px;
+  left: 255px;
+  position: absolute;
+  display: none;
+  /* Ajustements responsives */
+}
+@media screen and (min-width: 765px) and (max-width: 1140px) {
+  .block__photo .overlay .eye-icon {
+    left: 175px;
+  }
+}
+@media screen and (max-width: 765px) {
+  .block__photo .overlay .eye-icon {
+    top: 135px;
+    left: 140px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .block__photo .overlay .eye-icon {
+    left: 109px;
+  }
+}
+.block__photo .overlay .icon-fullscreen {
+  position: absolute;
+  cursor: pointer;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  top: 11px;
+  left: 512px;
+  border: 1px;
+  display: none;
+  /* Ajustements responsives */
+}
+@media screen and (min-width: 765px) and (max-width: 1140px) {
+  .block__photo .overlay .icon-fullscreen {
+    left: 317px;
+  }
+}
+@media screen and (max-width: 765px) {
+  .block__photo .overlay .icon-fullscreen {
+    top: 17px;
+    left: 267px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .block__photo .overlay .icon-fullscreen {
+    left: 215px;
+  }
 }/*# sourceMappingURL=style.css.map */
