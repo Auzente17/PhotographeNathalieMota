@@ -1,0 +1,422 @@
+/* Styles pour single-photo.php */
+
+/* La galerie de photos occupe toute la largeur et est en colonne */
+.photo__gallery {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+
+  @media screen and (max-width: 820px) {
+    height: 100%;
+    margin-top: 58px; /* Ajustement du margin-top pour les petits écrans */
+  }
+}
+
+/* Détails de la photo, disposition flexible avec option pour les petits écrans */
+.photo__detail {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+
+  @media screen and (max-width: 765px) {
+    flex-direction: column; /* Changement de disposition pour les petits écrans */
+  }
+}
+
+/* Conteneur de la photo avec une disposition flexible et ajustements pour les petits écrans */
+.photo__detail .photo__container {
+  object-fit: cover;
+  width: 50%;
+  height: 100%;
+  position: relative;
+
+  @media screen and (max-width: 820px) {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Superposition au survol de la photo avec une transition d'opacité et de couleur */
+.singlePhotoOverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0);
+  opacity: 0;
+  transition: background-color 0.3s, opacity 0.3s;
+  cursor: pointer;
+
+  /* Superposition visible au survol de la photo */
+  .photo__container:hover & {
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    /* Affichage d'une icône en plein écran au survol */
+    .icon__fullscreen {
+      display: block;
+    }
+  }
+}
+
+/* Icône en plein écran cachée par défaut, position ajustée pour différents écrans */
+.singlePhotoOverlay .icon__fullscreen {
+  display: none;
+  position: absolute;
+  left: 92%;
+  top: 2%;
+  width: 34px;
+  height: 34px;
+
+  @media screen and (max-width: 1140px) {
+    left: 86%;
+    top: 4%;
+  }
+
+  @media screen and (max-width: 765px) {
+    left: 82%;
+  }
+}
+
+/* Affichage de l'icône en plein écran au survol de la photo */
+.photo__container:hover .icon__fullscreen {
+  display: block;
+}
+
+/* Style de l'image principale */
+.photo__detail img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Section principale de la page, disposition flexible, largeur maximale ajustée pour différents écrans */
+.photo__list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 58px;
+  max-width: 80%;
+  margin: auto;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 765px) {
+    max-width: 375px;
+  }
+
+  @media screen and (max-width: 475px) {
+    max-width: 305px;
+  }
+
+  @media screen and (max-width: 400px) {
+    max-width: 245px;
+  }
+
+  @media screen and (max-width: 350px) {
+    max-width: 220px;
+  }
+}
+
+/* Informations sur la photo, largeur ajustée pour différents écrans */
+.photo__info {
+  width: 48%;
+  text-align: left;
+  border-bottom: solid black 1px;
+  padding-bottom: 30px;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    width: 100%;
+    left: 10px;
+    position: relative;
+  }
+
+  /* Ajustements supplémentaires pour les écrans très petits */
+  @media screen and (max-width: 420px) {
+    left: 0;
+  }
+
+  /* Style du titre de la photo */
+  h2 {
+    margin: 20px 0;
+    width: 420px;
+
+    /* Ajustements pour les petits écrans */
+    @media screen and (max-width: 820px) {
+      width: 262px;
+      height: 96px;
+    }
+  }
+
+  /* Style des paragraphes d'informations */
+  p {
+    font-family: space_monoregular;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+/* Style de la section d'informations sur la photo */
+.photo__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conteneur pour les coordonnées de contact, disposition flexible avec ajustements pour les petits écrans */
+.contact__container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 118px;
+  align-items: center;
+  border-bottom: solid black 1px;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+/* Style du texte de contact */
+.contact__container p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: PoppinsRegular;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 21px;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    font-family: PoppinsRegular;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 21px;
+    letter-spacing: 0em;
+    width: 263px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Conteneur pour le bouton de contact et la disposition flexible avec ajustements pour les petits écrans */
+.contact__container .contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    flex-direction: column;
+  }
+}
+
+/* Style du bouton de contact avec des ajustements pour différents écrans */
+#contact__button {
+  cursor: pointer;
+  border: white;
+  background: #d8d8d8;
+  width: 272px;
+  height: 50px;
+  font-family: "space_monoregular";
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 2px;
+  margin-right: 23px;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    width: 263px;
+  }
+
+  @media screen and (max-width: 420px) {
+    width: 175px;
+    margin-right: 0;
+  }
+
+  /* Effets de survol */
+  &:hover {
+    background-color: black;
+    color: white;
+    transition: background-color 0.6s ease-in, color 0.6s ease-in;
+  }
+}
+
+/* Styles pour l'affichage des vignettes au survol des flèches */
+
+/* Conteneur pour la navigation entre les photos */
+.navPhotos {
+  width: 50%;
+  height: 118px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    display: none;
+  }
+}
+
+/* Conteneur pour les flèches de navigation et positionnement relatif */
+.navArrow {
+  width: 81px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 10px;
+  height: 118px;
+
+  /* Styles pour les flèches */
+  .arrow {
+    width: 25px;
+    height: auto;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+
+    /* Affichage des miniatures au survol */
+    &:hover + .miniature {
+      display: flex !important;
+    }
+
+    /* Positionnement des flèches */
+    .arrow-left {
+      top: 10px;
+      position: relative;
+    }
+
+    .arrow-right {
+      top: 10px;
+      position: relative;
+    }
+  }
+}
+
+/* Conteneur pour les miniatures avec une transition de fondu */
+.miniature-content {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Styles pour les miniatures et effets de survol */
+.miniature,
+.miniature-left,
+.miniature-right {
+  visibility: hidden;
+  opacity: 0;
+  position: relative;
+  height: 71px;
+  width: 81px;
+  top: 8px;
+  transition: visibility 0.3s, opacity 0.3s linear;
+
+  /* Styles pour les liens des miniatures */
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    /* Styles pour les images des miniatures */
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+/* Affichage des miniatures au survol des flèches */
+.arrow:hover + .miniature,
+.arrow:hover + .miniature-left,
+.arrow:hover + .miniature-right {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Style du texte pour indiquer l'intérêt */
+.interested {
+  font-family: SpaceMono-Regular;
+  font-size: 14px;
+}
+
+/* Style du texte si aucune photo similaire n'est trouvée */
+.photoNotFound {
+  font-family: Poppins-Regular;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Titre pour la section de suggestions avec des ajustements pour les petits écrans */
+.title__suggestion {
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 3%;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 1140px) {
+    display: flex;
+    margin: 10px 0 0 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Style du titre des suggestions */
+.title__suggestion h3 {
+  font-family: SpaceMono-Regular;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0.1em;
+  margin-top: 6%;
+}
+
+/* Conteneur pour les photos similaires avec ajustements pour les petits écrans */
+.photo__similar {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  /* Ajustements pour les petits écrans */
+  @media screen and (max-width: 820px) {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Ajustements supplémentaires pour les très petits écrans */
+  @media screen and (max-width: 375px) {
+    padding-top: 30px;
+  }
+}
+
+/* Style pour la section de suggestions avec ajustements pour les petits écrans */
+.suggestions {
+  @media screen and (max-width: 375px) {
+    padding: 30px 40px;
+  }
+}
