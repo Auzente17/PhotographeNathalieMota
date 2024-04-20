@@ -14,8 +14,19 @@ console.log("Le JS de la modale s'est correctement chargé");
   }
 
   // Gestion du clic sur le bouton de contact
-  $(".contact-btn").on("click", function (event) {
+  $(".contact-btn, .menu-contact-link").on("click", function (event) {
     event.preventDefault();
+
+    // Vérifier si le bouton cliqué est le bouton de contact sur la page single-photo.php
+    if ($(this).hasClass("contact-btn")) {
+      // Récupérer la valeur de l'attribut data-reference du bouton
+      var reference = $("#single-reference").text();
+      // Pour définir la valeur du champ #reference dans la modale de contact
+      $("#refoto").val(reference);
+    } else {
+      // vider le champ #reference dans la modale de contact
+      $("#refoto").val("");
+    }
     openModal();
   });
 

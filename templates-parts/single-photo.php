@@ -18,6 +18,7 @@ $formatUppercase = mb_strtoupper($format_name);
 $annees = get_the_terms(get_the_ID(), 'annee');
 $annee = ($annees && !is_wp_error($annees)) ? $annees[0]->name : 'Non défini';
 
+var_dump($categories);
 
 // Pour définir les URL's des vignettes pour le post précédent et suivant
 $nextPost = get_next_post();
@@ -32,7 +33,7 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
         <div class="photo__detail">
             <div class="photo__container">
                 <!-- Afficher la valeur de $photoId pour vérifier si elle contient la bonne valeur -->
-                <?php echo $photoId; ?>
+               
                 <!-- Affiche l'image de la photo -->
                 <img src="<?php echo esc_url($photoId); ?>" alt="<?php the_title_attribute(); ?>">
             </div>
@@ -57,7 +58,7 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
         <div class="contact">
             <!-- Affiche un message et un bouton pour contacter l'auteur de la photo -->
             <p class="interested">Cette photo vous intéresse ?</p>
-            <button class="modale-contact" id="contact__button" data-reference="<?php echo $refUppercase; ?>">Contact</button>
+            <button class="contact-btn" id="contact__button" data-reference="<?php echo $refUppercase; ?>">Contact</button>
         </div>
 
         <div class="navPhotos">
@@ -91,23 +92,29 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
         $args = array(
             'post_type' => 'photo',
             'posts_per_page' => 2,
-            'post__not_in' => array(get_the_ID()),
+            //'post__not_in' => array(get_the_ID()),
             'orderby' => 'rand',
             'tax_query' => array(
-                array(
-                    'taxonomy' => 'categorie',
-                    'field' => 'id',
-                    'terms' => $categories ? $categories : array(), //  Pour éviter d'appeler à nouveau get_the_terms() et wp_list_pluck() dans la requête WP_Query,
-                ),
-            ),
+              array(
+                 'taxonomy' => 'categorie',
+                 'field' => 'slug',
+                 'terms' => $categories ? wp_list_pluck($categories, 'slug') : array(), 
+               ),
+          ),
         );
+
+        // Supprime la clause "AND (0 = 1)" de la requête SQL généré par WP
+        add_filter('posts_where', 'remove_zero_clause_from-where');
 
         // Crée une nouvelle instance de WP_Query avec les arguments définis
         $query = new WP_Query($args);
+        
+        // Supprime le filtre "posts_where" pour éviter d'affecter d'autres requêtes WP_Query
+        remove_filter('posts_where', 'remove_zero_clause_from_where');
 
         // Boucle sur les publications similaires et affiche le modèle de contenu pour chaque publication
         if ($query->have_posts()) :
-            while ($query->have_posts()) : $query->the_post();
+            while ($query->have_posts()) : $query->the_post(); 
                 get_template_part('templates-parts/block-photo');
             endwhile;
         else :
