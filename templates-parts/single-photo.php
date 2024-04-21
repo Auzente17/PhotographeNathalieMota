@@ -18,7 +18,6 @@ $formatUppercase = mb_strtoupper($format_name);
 $annees = get_the_terms(get_the_ID(), 'annee');
 $annee = ($annees && !is_wp_error($annees)) ? $annees[0]->name : 'Non défini';
 
-var_dump($categories);
 
 // Pour définir les URL's des vignettes pour le post précédent et suivant
 $nextPost = get_next_post();
@@ -104,7 +103,7 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
         );
 
         // Supprime la clause "AND (0 = 1)" de la requête SQL généré par WP
-        add_filter('posts_where', 'remove_zero_clause_from-where');
+        add_filter('posts_where', 'remove_zero_clause_from_where');
 
         // Crée une nouvelle instance de WP_Query avec les arguments définis
         $query = new WP_Query($args);

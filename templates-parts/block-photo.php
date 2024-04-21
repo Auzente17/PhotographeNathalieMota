@@ -1,13 +1,16 @@
 <?php
-// Pour récupérer  l'ID de la photo
-$photoId = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'large'); $photoUrl =$photoId[0];
+// Pour récupérer l'URL de la photo
+$photoUrl = get_the_post_thumbnail_url(get_the_ID(), 'large'); 
 
-if ($photoId !== false) {
-    $photoUrl = $photoId[0];
-    // Le reste du code pour afficher l'image
+// vérifier si l'URL de l'imagemise en avant a été récupéré avec succès
+if ($photoUrl) {
+       
+   
 } else {
-    // Afficher un message d'erreur ou une image par défaut
+    //  l'URL de l'image n'a pas pu être récupérée
+    echo 'Aucune URL d\'image trouvée.<br>';
 }
+
 
 // Pour récupérer le titre de la photo
 $title_photo = get_the_title();
@@ -47,7 +50,7 @@ $categorie = !empty($categories) ? $categories[0]->name : '';
         </div>
 
         <!-- Ajout de l'icône fullscreen avec des attributs de données -->
-        <div class="icon-fullscreen" data-full="<?php echo esc_attr($photoId); ?>" data-category="<?php echo esc_attr($categorie); ?>" data-reference="<?php echo esc_attr($reference); ?>">
+        <div class="icon-fullscreen" data-full ="<?php echo esc_attr($photoUrl); ?>" data-category ="<?php echo esc_attr($categorie); ?>" data-reference="<?php echo esc_attr($reference); ?>">
             <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/Icon_fullscreen.png" alt="Icone fullscreen">
         </div>
     </div>

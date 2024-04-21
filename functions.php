@@ -43,7 +43,8 @@ function enregistrer_menus() {
   }
   add_action( 'init', 'enregistrer_menus' );
 
-
+// Fonction pour charger plus de photos via AJAX
+function load_more_photos() {
    // Arguments de la requête pour récupérer les photos
    $args = array(
     'post_type'      => 'photo',     // Type de publication : photo
@@ -53,23 +54,24 @@ function enregistrer_menus() {
     'offset' => $_POST['offset']
 );
 
+// Exécute la requête WP_Query avec les arguments
+$photo_block = new WP_Query($args);
+echo '<pre>';
+print_r($photo_block);
+echo '</pre>';
 
-// Fonction pour charger plus de photos via AJAX
-function load_more_photos()
-{
-    // Récupère le numéro de page à partir des données POST
-    $page = $_POST['page'];
- // Exécute la requête WP_Query avec les arguments
- $photo_block = new WP_Query($args);
 
  // Vérifie s'il y a des photos dans la requête
+ $compteur = 0; // initialisation de la variable $compteur à 0
  if ($photo_block->have_posts()) :
      // Boucle à travers les photos
      while ($photo_block->have_posts()) :
          $photo_block->the_post();
+         echo 'Photo URL: ' . get_the_post_thumbnail_url() . '<br>';
          // Inclut la partie du modèle pour afficher un bloc de photo
          get_template_part('template-parts/block-photo', get_post_format());
      endwhile;
+     
 
      // Réinitialise les données post
      wp_reset_postdata();
@@ -83,3 +85,7 @@ function load_more_photos()
  die();
 }
   
+function remove_zero_clause_from_where($where) {
+  $where = str_replace("AND (0 = 1)", "", $where);
+  return $where;
+}
