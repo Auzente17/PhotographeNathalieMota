@@ -1,0 +1,72 @@
+.hero {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+  background-size: cover; // Ajuste la taille de l'image pour couvrir toute la zone
+  background-position: center; // Centre l'image dans la zone
+
+  // Ajout des keyframes pour l'effet fade-in et fade-out
+  animation: fadeIn 2s forwards;
+
+  @media screen and (max-width: 768px) {
+    height: 250px; /* Ajustement de la hauteur pour les écrans plus petits */
+  }
+
+  &__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    // Ajustement pour que le titre s'affiche sur une seule ligne
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    h1 {
+      // Alignement du texte au centre
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
+
+      // Styles du texte
+      -webkit-text-stroke: 3px #ffff; /* contour du texte */
+      -webkit-text-fill-color: transparent;
+      font-family: "SpaceMono-BoldItalic";
+      font-size: 6vw;
+      font-weight: 700;
+      text-transform: uppercase; /* Convertit le texte en majuscules */
+
+      // Ajout de l'animation pour l'effet de défilement du bas vers le haut
+      animation: slideInFromBottom 2s forwards;
+
+      @media screen and (max-width: 768px) {
+        -webkit-text-stroke: 1px #ffffff; /* Ajustement du contour du texte pour les écrans plus petits */
+      }
+    }
+  }
+}
+
+// Définition des keyframes pour l'effet fade-in et fade-out
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Définition des keyframes pour l'effet de défilement du bas vers le haut
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

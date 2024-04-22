@@ -16,7 +16,9 @@ function theme_enqueue_scripts_and_styles() {
 
   // Afficher les images miniature (script JQuery)
   wp_enqueue_script('miniature-js', get_stylesheet_directory_uri() . '/js/miniature.js', array('jquery'), '1.0.0', true);
+
 }
+
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles' );
 
 // Fonction pour ajouter la prise en charge du logo personnalisé dans le thème
@@ -88,4 +90,34 @@ echo '</pre>';
 function remove_zero_clause_from_where($where) {
   $where = str_replace("AND (0 = 1)", "", $where);
   return $where;
+}
+
+function get_random_background_image() {
+  // Arguments de la requête pour récupérer une photo aléatoire
+  $args = array(
+      'post_type'      => 'photo',      // Type de publication : photo
+      'posts_per_page' => 1,            // Nombre de photos à récupérer (1 pour une photo aléatoire)
+      'orderby'        => 'rand',       // Tri aléatoire
+  );
+
+  // Exécute la requête WP_Query avec les arguments
+  $photo_query = new WP_Query($args);
+
+  // Initialise la variable pour stocker l'URL de l'image
+  $photo_url = '';
+
+  // Vérifie s'il y a des photos dans la requête
+  if ($photo_query->have_posts()) {
+      // Boucle à travers les photos
+      while ($photo_query->have_posts()) {
+          $photo_query->the_post();
+          // Récupère l'URL de l'image mise en avant
+          $photo_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
+      }
+      // Réinitialise les données post
+      wp_reset_postdata();
+  }
+
+  // Retourne l'URL de l'image
+  return $photo_url;
 }
