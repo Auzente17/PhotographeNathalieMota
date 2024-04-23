@@ -7,7 +7,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class('mainContainer'); ?>>
+<body>
     
 <header>
         <nav id="nav-bar" class="navbar">

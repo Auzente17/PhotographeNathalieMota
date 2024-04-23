@@ -15,4 +15,3 @@ $background_image_url = get_random_background_image();
     </div>
 </section>
 
-<?php get_footer(); ?>
