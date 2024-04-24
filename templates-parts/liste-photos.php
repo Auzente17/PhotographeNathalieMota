@@ -1,8 +1,6 @@
 
-<?php get_header(); ?>
 
 
-<div class="photo-grid">
 <?php
 // La boucle WordPress pour afficher les photos avec WP_Query
 $args = array(
@@ -11,16 +9,16 @@ $args = array(
 );
 
 // Exécute la requête WP_Query avec les arguments
-$photo_query = new WP_Query($args);
+$block__photo = new WP_Query($args);
 
 // Vérifie s'il y a des photos dans la requête
-if ($photo_query->have_posts()) :
+if ($block__photo->have_posts()) :
     // Je définie les arguments pour le bloc photo
     set_query_var('photo_block_args', array('context' => 'front-page'));
 
     // Boucle pour afficher chaque photo
-    while ($photo_query->have_posts()) :
-        $photo_query->the_post();
+    while ($block__photo->have_posts()) :
+        $block__photo->the_post();
     ?>
         <div class="photo-item">
             <?php

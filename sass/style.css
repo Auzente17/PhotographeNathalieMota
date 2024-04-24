@@ -233,14 +233,14 @@ footer .footer-menu li a:hover {
 }
 
 /* Conteneur de la photo avec une disposition flexible et ajustements pour les petits écrans */
-.photo__detail .photo__container {
+.photo__detail {
   object-fit: cover;
   width: 50%;
   height: 100%;
   position: relative;
 }
 @media screen and (max-width: 820px) {
-  .photo__detail .photo__container {
+  .photo__detail {
     width: 100%;
     height: 100%;
   }
@@ -263,12 +263,12 @@ footer .footer-menu li a:hover {
   transition: background-color 0.3s, opacity 0.3s;
   /* Superposition visible au survol de la photo */
 }
-.photo__container:hover .singlePhotoOverlay {
+.liste__photo:hover .singlePhotoOverlay {
   opacity: 0.8;
   background-color: rgba(0, 0, 0, 0.8);
   /* Affichage d'une icône en plein écran au survol */
 }
-.photo__container:hover .singlePhotoOverlay .icon__fullscreen {
+.liste__photo:hover .singlePhotoOverlay .icon__fullscreen {
   display: block;
 }
 
@@ -294,7 +294,7 @@ footer .footer-menu li a:hover {
 }
 
 /* Affichage de l'icône en plein écran au survol de la photo */
-.photo__container:hover .icon__fullscreen {
+.liste__photo:hover .icon__fullscreen {
   display: block;
 }
 
@@ -859,10 +859,12 @@ footer .footer-menu li a:hover {
 }
 /* Style liste de photos de la page d'accueil */
 .photo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Deux colonnes */
-  grid-auto-rows: 250px; /* Hauteur fixe pour chaque ligne */
-  grid-gap: 20px; /* Espacement entre les photos */
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: center;
+  margin-top: 43px;
+  gap: 20px; /* Espacement entre les photos */
 }
 
 .liste__photo {
@@ -872,7 +874,7 @@ footer .footer-menu li a:hover {
   position: relative;
 }
 
-.btn-container {
+.load-more-btn {
   display: block;
   position: relative;
   width: 270px;
@@ -886,7 +888,7 @@ footer .footer-menu li a:hover {
   border-radius: 2px;
   border: none;
 }
-.btn-container:hover {
+.load-more-btn:hover {
   cursor: pointer;
   background-color: black;
   color: #fff;

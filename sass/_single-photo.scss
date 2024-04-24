@@ -27,7 +27,7 @@
 }
 
 /* Conteneur de la photo avec une disposition flexible et ajustements pour les petits écrans */
-.photo__detail .photo__container {
+.photo__detail {
   object-fit: cover;
   width: 50%;
   height: 100%;
@@ -56,7 +56,7 @@
   transition: background-color 0.3s, opacity 0.3s;
 
   /* Superposition visible au survol de la photo */
-  .photo__container:hover & {
+  .liste__photo:hover & {
     opacity: 0.8;
     background-color: rgba(0, 0, 0, 0.8);
 
@@ -87,7 +87,7 @@
 }
 
 /* Affichage de l'icône en plein écran au survol de la photo */
-.photo__container:hover .icon__fullscreen {
+.liste__photo:hover .icon__fullscreen {
   display: block;
 }
 

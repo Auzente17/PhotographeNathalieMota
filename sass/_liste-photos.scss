@@ -1,10 +1,12 @@
 /* Style liste de photos de la page d'accueil */
 
 .photo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Deux colonnes */
-  grid-auto-rows: 250px; /* Hauteur fixe pour chaque ligne */
-  grid-gap: 20px; /* Espacement entre les photos */
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: center;
+  margin-top: 43px;
+  gap: 20px; /* Espacement entre les photos */
 }
 
 .liste__photo {
@@ -14,7 +16,7 @@
   position: relative;
 }
 
-.btn-container {
+.load-more-btn {
   display: block;
   position: relative;
   width: 270px;
