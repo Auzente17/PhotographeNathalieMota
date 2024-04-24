@@ -27,7 +27,7 @@
 }
 
 /* Conteneur de la photo avec une disposition flexible et ajustements pour les petits écrans */
-.photo__detail {
+.photo__detail .photo__container {
   object-fit: cover;
   width: 50%;
   height: 100%;

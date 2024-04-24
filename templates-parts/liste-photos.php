@@ -1,5 +1,8 @@
 
+<?php get_header(); ?>
 
+
+<div class="photo-grid">
 <?php
 // La boucle WordPress pour afficher les photos avec WP_Query
 $args = array(
@@ -18,10 +21,15 @@ if ($photo_query->have_posts()) :
     // Boucle pour afficher chaque photo
     while ($photo_query->have_posts()) :
         $photo_query->the_post();
-  
+    ?>
+        <div class="photo-item">
+            <?php
         // Inclure le contenu du template "block-photo.php"
         get_template_part('templates-parts/block-photo');
-       
+        ?>
+        </div>
+
+<?php
     endwhile;
 
     // Je réinitialise la requête
@@ -31,5 +39,4 @@ else :
     echo 'Aucune photo trouvée.';
 endif;
 ?>
-
-
+</div>

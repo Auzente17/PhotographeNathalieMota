@@ -17,6 +17,10 @@ function theme_enqueue_scripts_and_styles() {
   // Afficher les images miniature (script JQuery)
   wp_enqueue_script('miniature-js', get_stylesheet_directory_uri() . '/js/miniature.js', array('jquery'), '1.0.0', true);
 
+  wp_enqueue_script('isotope-js', 'https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js', array('jquery'), '3.0.6', true);
+
+ // Enregistrer le script pour les filtres dans la page d'accueil
+  wp_enqueue_script('liste-photo-js', get_stylesheet_directory_uri() . '/js/liste-photo.js', array('jquery'), '1.0.0', true);
 }
 
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles' );
@@ -45,53 +49,60 @@ function enregistrer_menus() {
   }
   add_action( 'init', 'enregistrer_menus' );
 
+
 // Fonction pour charger plus de photos via AJAX
 function load_more_photos() {
+  // Pour s'assurer que la requête est sécurisée
+  check_ajax_referer('load-more-photos', 'security');
+
+  // Récupérer l'offset à partir de la requête AJAX
+  $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
+  $per_page = 8; // Nombre de photos à charger à chaque fois
+
    // Arguments de la requête pour récupérer les photos
    $args = array(
     'post_type'      => 'photo',     // Type de publication : photo
-    'posts_per_page' => 8,          // Nombre de photos par page (-1 pour toutes)
+    'posts_per_page' => $per_page,   // Nombre de photos par page (-1 pour toutes)
     'orderby'        => 'date',      // Tri aléatoire
-    'order'          => 'DESC',       // Ordre ascendant
-    'offset' => $_POST['offset']
+    'order'          => 'DESC',      // Ordre ascendant
+    'offset' => $offset,   // Offset pour obtenir les prochaines photos
 );
 
 // Exécute la requête WP_Query avec les arguments
 $photo_block = new WP_Query($args);
-echo '<pre>';
-print_r($photo_block);
-echo '</pre>';
 
+// Initialise la variable pour stocker le HTML des nouvelles photos
+$output = '';
 
  // Vérifie s'il y a des photos dans la requête
- $compteur = 0; // initialisation de la variable $compteur à 0
- if ($photo_block->have_posts()) :
+  if ($photo_block->have_posts()) {
      // Boucle à travers les photos
-     while ($photo_block->have_posts()) :
+     while ($photo_block->have_posts()) {
          $photo_block->the_post();
-         echo 'Photo URL: ' . get_the_post_thumbnail_url() . '<br>';
-         // Inclut la partie du modèle pour afficher un bloc de photo
-         get_template_part('template-parts/block-photo', get_post_format());
-     endwhile;
+         // Inclure le template "block-photo.php"
+        get_template_part('template-parts/block-photo');
+      }
      
-
      // Réinitialise les données post
      wp_reset_postdata();
- else :
-     // Aucune photo trouvée
-     echo 'Aucune photo trouvée.';
- 
- endif;
- 
- // Termine l'exécution de la fonction
- die();
-}
-  
+    } else {
+      // Aucune photo trouvée
+      $output = 'Aucune photo trouvée';
+    }
+   // Retourne le HTML des nouvelles photos
+   echo $output;
+
+   // Termine l'exécution de la fonction
+   die();
+}  
+    
+// Fonction pour retirer la clause "AND (0 = 1)" de la requête WHERE
 function remove_zero_clause_from_where($where) {
   $where = str_replace("AND (0 = 1)", "", $where);
   return $where;
 }
 
+// Fonction pour récupérer une image de fond aléatoire
 function get_random_background_image() {
   // Arguments de la requête pour récupérer une photo aléatoire
   $args = array(
@@ -121,3 +132,7 @@ function get_random_background_image() {
   // Retourne l'URL de l'image
   return $photo_url;
 }
+
+// Ajout des actions pour les requêtes AJAX
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');

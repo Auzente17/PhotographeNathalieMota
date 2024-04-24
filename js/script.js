@@ -1,3 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.body.classList.add("<?php echo implode(' ', body_class()); ?>");
+  // Ajouter les classes de body
+  document.body.classList.add("<?php echo body_class(); ?>");
 });
