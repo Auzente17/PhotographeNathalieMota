@@ -2,13 +2,20 @@
 
 <?php get_template_part('templates-parts/hero'); ?>
 
+
+<section class="filters-section">
+      <?php get_template_part('templates-parts/filtres'); ?>
+</section>
+
+<!-- Section pour afficher la liste de photos -->
 <section id="liste__photo" class="photo-grid">
     <?php get_template_part('templates-parts/liste-photos'); ?>
 </section>
 
 
-<div id="btn-container">
-<button class="load-more-btn" data-offset= "8">Charger plus</button>
+<div id="load-more-container">
+    <!-- Bouton pour charger plus de photos -->
+    <button id="load-more-btn" class="load-more-btn" data-offset= "8"data-security="<?php echo esc_attr( wp_create_nonce( 'load-more-photos' ) ); ?>">Charger plus</button>
 </div>
  
 <?php get_footer(); ?>

@@ -1,11 +1,38 @@
-/* Style liste de photos de la page d'accueil */
+/* Styles pour les filtres de la page d'accueil */
+.filters-section {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 30px;
+}
 
+.filters-left .filters-right {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.filters-left {
+  display: flex;
+  flex-direction: row;
+  margin-left: 125px;
+  gap: 36px;
+}
+
+.filters-right {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Style liste de photos de la page d'accueil */
 .photo-grid {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
   justify-content: center;
-  margin-top: 43px;
   gap: 20px; /* Espacement entre les photos */
 }
 
