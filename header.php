@@ -7,7 +7,10 @@
     <?php wp_head(); ?>
 </head>
 
-<body>
+<body class="mainContainer">
+    <?php 
+    // Fonction pour injecter du code après la balise d'ouverture du body
+    wp_body_open(); ?>
     
 <header>
         <nav id="nav-bar" class="navbar">

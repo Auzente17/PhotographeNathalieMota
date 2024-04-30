@@ -1,0 +1,41 @@
+/* CSS de la partie filtres */
+
+#filtres-section .filtres-container {
+  margin-bottom: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.custom-select {
+  width: 260px;
+  height: 43px;
+  border: 1.3px solid #b8bbc2 !important;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+.taxonomy-container {
+  display: flex;
+  align-items: center;
+}
+
+.filters-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  width: 59%;
+}
+
+.filters-right {
+  align-items: flex-end;
+  width: 29%;
+}
+
+#annees {
+  margin-left: auto;
+}

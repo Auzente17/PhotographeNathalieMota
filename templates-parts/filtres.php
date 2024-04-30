@@ -7,8 +7,7 @@ $taxonomy_labels = [
 ];
 
 // Début du conteneur des filtres
-echo "<section class='filters-section'>";
-echo "<div class='filters-container'>";
+echo "<div class='filtres-container'>";
 
 // Section des filtres catégorie et format à gauche
 echo "<div class='filters-left'>";
@@ -27,8 +26,6 @@ foreach ($taxonomy_labels as $taxonomy_slug => $label) {
 
             // Début du conteneur pour la taxonomie
             echo "<div class='taxonomy-container'>";
-            // Début de la balise label
-           // echo "<label for='$taxonomy_slug'>$label</label>";
             // J'affiche le select avec l'ID et la classe appropriée
             echo "<select id='$taxonomy_slug' class='$select_class'>";
             // Option par défaut avec le label de la taxonomie
@@ -67,3 +64,5 @@ echo "</div>";
 // Fin de la section du filtre trier par à droite
 echo "</div>";
 
+// Fin du conteneur filtres-container
+echo "</div>";

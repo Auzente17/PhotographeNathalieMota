@@ -3,15 +3,15 @@
 <?php get_template_part('templates-parts/hero'); ?>
 
 
-<section class="filters-section">
+    <!-- Section pour les filtres -->
+    <section id="filtres-section"> 
       <?php get_template_part('templates-parts/filtres'); ?>
-</section>
+    </section>
 
-<!-- Section pour afficher la liste de photos -->
-<section id="liste__photo" class="photo-grid">
-    <?php get_template_part('templates-parts/liste-photos'); ?>
-</section>
-
+    <!-- Section pour afficher la liste de photos -->
+    <section id="liste__photo" class="photo-grid">
+        <?php get_template_part('templates-parts/liste-photos'); ?>
+    </section>
 
 <div id="load-more-container">
     <!-- Bouton pour charger plus de photos -->

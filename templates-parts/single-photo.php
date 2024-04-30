@@ -31,8 +31,7 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
     <div class="photo__gallery">
         <div class="photo__detail">
             <div class="photo__container">
-                <!-- Afficher la valeur de $photoId pour vérifier si elle contient la bonne valeur -->
-               
+                              
                 <!-- Affiche l'image de la photo -->
                 <img src="<?php echo esc_url($photoId); ?>" alt="<?php the_title_attribute(); ?>">
             </div>
@@ -62,7 +61,8 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
 
         <div class="navPhotos">
             <div class="miniature" id="miniature"></div>
-
+                <!-- Afficher la miniature de la photo actuelle de façon permanente -->
+                                  
             <div class="navArrow">
                 <!-- Affiche les flèches de navigation vers les photos précédentes et suivantes -->
                 <?php if (!empty($previousPost)) : ?>

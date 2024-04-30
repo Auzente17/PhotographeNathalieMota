@@ -1,3 +1,5 @@
+console.log("Le js pour les filtres s'est correctement chargé");
+
 jQuery(document).ready(function ($) {
   var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
   console.log(ajaxurl);
@@ -27,7 +29,7 @@ jQuery(document).ready(function ($) {
     var sortByDate = $("#annees").val(); // Utilise la valeur du champ de tri par date
 
     $.ajax({
-      url: ajaxurl,
+      url: ajax_params.ajaxurl,
       type: "POST",
       data: {
         action: "filter_photos",
@@ -42,6 +44,7 @@ jQuery(document).ready(function ($) {
 
       error: function (xhr, status, error) {
         console.error(xhr.responseText);
+        console.log(xhr.status.error);
       },
     });
   }

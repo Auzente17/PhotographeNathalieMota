@@ -522,13 +522,6 @@ footer .footer-menu li a:hover {
   position: relative;
 }
 
-/* Conteneur pour les miniatures avec une transition de fondu */
-.miniature-content {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s, visibility 0.3s;
-}
-
 /* Styles pour les miniatures et effets de survol */
 .miniature,
 .miniature-left,
@@ -539,7 +532,7 @@ footer .footer-menu li a:hover {
   height: 71px;
   width: 81px;
   top: 8px;
-  transition: visibility 0.3s, opacity 0.3s linear;
+  transition: opacity 0.3s linear;
   /* Styles pour les liens des miniatures */
 }
 .miniature a,
@@ -857,49 +850,14 @@ footer .footer-menu li a:hover {
     transform: translateY(0);
   }
 }
-/* Styles pour les filtres de la page d'accueil */
-.filters-section .filters-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 30px;
-}
-
-.filters-left .filters-right {
-  display: flex;
-  justify-content: center;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-}
-
-.filters-left {
-  display: flex;
-  flex-direction: row;
-  margin-left: 125px;
-  gap: 36px;
-}
-
-.filters-right {
-  width: 33%;
-  display: flex;
-  justify-content: center;
-}
-
 /* Style liste de photos de la page d'accueil */
 .photo-grid {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
   justify-content: center;
+  margin-top: 43px;
   gap: 20px; /* Espacement entre les photos */
-}
-
-.liste__photo {
-  object-fit: cover;
-  width: 50%;
-  height: 100%;
-  position: relative;
 }
 
 .load-more-btn {
@@ -921,4 +879,130 @@ footer .footer-menu li a:hover {
   background-color: black;
   color: #fff;
   transition: background-color 0.6s ease-in, color 0.6s ease-in;
+}
+
+/* Styles pour la sélection simple */
+.select2-container--default .select2-selection--single {
+  height: 43px !important;
+  border: 1.3px solid #b8bbc2 !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  font-family: SpaceMono-Regular;
+  font-size: 16px !important;
+  text-transform: uppercase;
+}
+
+/* Styles pour les options */
+.select2-container--default .select2-results__option {
+  font-family: SpaceMono-Regular;
+  font-size: 16px;
+}
+
+/* Styles pour une option sélectionnée mise en surbrillance */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: transparent !important;
+  color: #000 !important;
+}
+
+/* Styles pour une option hover */
+.select2-container--default .select2-results__option:hover {
+  background-color: #ffd6d6 !important;
+  color: white !important;
+}
+
+/* Styles pour une option activée (clic) */
+.select2-container--default .select2-results__option:active {
+  background-color: #fe5858 !important;
+  color: white !important;
+}
+
+/* Styles pour une option en focus */
+.select2-container--default .select2-results__option:focus {
+  background-color: #e00000 !important;
+  color: white !important;
+}
+
+/* Styles pour la première option (cachée) */
+.select2-container--default .select2-results__option:first-child {
+  background-color: #ffd6d6 !important;
+  color: #000 !important;
+  display: none;
+}
+
+/* Styles pour une option sélectionnée (non première) */
+.select2-container--default .select2-results__option:not(:first-child)[aria-selected=true] {
+  background-color: #e00000 !important;
+  color: #fff !important;
+}
+
+/* Styles pour la dropdown */
+.select2-container--default .select2-dropdown {
+  top: -4px;
+  margin-top: 28px;
+}
+@media screen and (max-width: 781px) {
+  .select2-container--default .select2-dropdown {
+    top: 9px;
+    margin-top: 32px;
+  }
+}
+
+/* Styles pour la barre de recherche dans la dropdown (cachée) */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  display: none;
+}
+
+/* Styles pour la flèche dans la sélection simple */
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border-color: #888 transparent transparent transparent;
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  height: 0;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: 4px !important;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+/* CSS de la partie filtres */
+#filtres-section .filtres-container {
+  margin-bottom: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.custom-select {
+  width: 260px;
+  height: 43px;
+  border: 1.3px solid #b8bbc2 !important;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+.taxonomy-container {
+  display: flex;
+  align-items: center;
+}
+
+.filters-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  width: 59%;
+}
+
+.filters-right {
+  align-items: flex-end;
+  width: 29%;
+}
+
+#annees {
+  margin-left: auto;
 }/*# sourceMappingURL=style.css.map */
