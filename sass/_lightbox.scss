@@ -1,66 +1,55 @@
 /* Styles pour la lightbox */
 .lightbox {
-  display: none;
+  display: none; /* La lightbox est initialement cachée */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  overflow: auto;
-
-  &-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+  background-color: rgba(0, 0, 0, 0.8); /* Overlay noir transparent */
+  z-index: 1000; /* Assure que la lightbox est au-dessus de tous les autres éléments */
+  overflow: auto; /* Permet de faire défiler la lightbox si nécessaire */
 
   &-content {
     position: relative;
     margin: auto;
-    padding: 20px;
-    max-width: 800px;
-  }
-
-  &-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+    max-width: 100%; /* La lightbox occupe le maximum d'espace disponible */
+    max-height: 100%; /* La lightbox occupe le maximum d'espace disponible */
   }
 
   &-image-container {
-    text-align: center;
+    text-align: center; /* Centre l'image dans la lightbox */
+    margin-top: 20px; /* Espace supplémentaire au-dessus de l'image */
+  }
+
+  &-image {
+    max-width: 100%; /* L'image occupe le maximum d'espace disponible */
+    max-height: calc(
+      100vh - 100px
+    ); /* L'image occupe la hauteur maximale de la fenêtre moins 100px pour la zone de navigation */
   }
 
   &-caption {
-    color: #fff;
-    text-align: center;
-    margin-top: 10px;
+    color: #fff; /* Couleur du texte de la légende */
+    text-align: center; /* Centre la légende */
+    margin-top: 10px; /* Espace supplémentaire au-dessus de la légende */
   }
 
   &-navigation {
     position: absolute;
-    bottom: 20px;
+    bottom: 20px; /* Espacement par rapport au bas de la lightbox */
     left: 0;
     width: 100%;
     text-align: center;
 
     span {
-      color: #fff;
+      color: #fff; /* Couleur des flèches de navigation */
       cursor: pointer;
-      margin: 0 10px;
+      margin: 0 10px; /* Espacement entre les flèches de navigation */
     }
   }
+}
 
-  &-previous {
-    float: left;
-  }
-
-  &-next {
-    float: right;
-  }
+.lightbox-open {
+  display: block; /* Affiche la lightbox lorsque la classe lightbox-open est ajoutée */
 }

@@ -1,64 +1,55 @@
-// Affichage d'un message dans la console pour vérifier que le JS s'est correctement chargé
-console.log("Le JS de la lightbox s'est correctement chargé");
+// Fonction principale exécutée lorsque le DOM est chargé
+function initializeLightbox() {
+  console.log("Le JS de la lightbox s'est correctement chargé");
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Fonction pour ouvrir la lightbox au clic sur l'icône fullscreen
-  function openLightbox(event) {
-    console.log("La fonction openLightbox est appelée !");
-    // Empêche le comportement par défaut du lien
-    event.preventDefault();
+  // Attacher un gestionnaire d'événements lorsque le DOM est chargé
+  document.addEventListener("DOMContentLoaded", function () {
+    // Ajouter un gestionnaire d'événements à chaque icône fullscreen
+    const fullscreenIcons = document.querySelectorAll(".icon-fullscreen");
+    fullscreenIcons.forEach((icon) => {
+      icon.addEventListener("click", openLightbox.bind(icon));
+    });
 
-    // Récupère les attributs de données de l'icône fullscreen cliquée
-    var imageURL = this.getAttribute("data-full");
-    console.log(imageURL);
-    var imageCategory = this.getAttribute("data-category");
-    console.log(imageCategory);
-
-    console.log("Avant de sélectionner les éléments de la lightbox");
-    // Sélectionne les éléments de la lightbox
-    var lightbox = document.getElementById("lightbox");
-    var lightboxImage = document.getElementById("lightbox-image");
-    var lightboxCaption = document.getElementById("lightbox-caption");
-
-    // Met à jour l'image et la légende de la lightbox avec les données récupérées
-    lightboxImage.setAttribute("src", imageURL);
-    lightboxCaption.innerHTML = imageCategory;
-
-    // Ajoute la classe pour afficher la lightbox
-    lightbox.classList.add("lightbox-open");
-
-    // Affiche la lightbox
-    lightbox.style.display = "block";
-  }
-
-  // Sélectionne tous les icônes fullscreen
-  var fullscreenIcons = document.querySelectorAll(".icon-fullscreen");
-
-  // Ajoute un écouteur d'événements à chaque icône fullscreen
-  fullscreenIcons.forEach(function (icon) {
-    icon.addEventListener("click", openLightbox);
+    // Ajouter un gestionnaire d'événements au bouton de fermeture
+    const closeButton = document.querySelector(".lightbox-close");
+    closeButton.addEventListener("click", closeLightbox);
   });
+}
 
-  // Fonction pour fermer la lightbox
-  function closeLightbox() {
-    var lightbox = document.getElementById("lightbox");
-    // Supprime la classe pour masquer la lightbox
-    lightbox.classList.remove("lightbox-open");
-    // Réactive le défilement de la page
-    document.body.style.overflow = "auto";
-  }
+// Fonction pour ouvrir la lightbox
+function openLightbox(event) {
+  console.log("La fonction openLightbox est appelée !");
+  console.log("L'icône fullscreen a été cliquée !");
+  // Empêche le comportement par défaut du lien
+  event.preventDefault();
 
-  // Sélectionne l'icône de fermeture de la lightbox
-  var closeIcon = document.querySelector(".lightbox-close");
+  // Récupère les données de l'icône fullscreen cliquée
+  const imageURL = event.currentTarget.getAttribute("data-full");
+  console.log("URL de l'image:", imageURL);
+  const imageCategory = event.currentTarget.getAttribute("data-category");
+  console.log("Catégorie de l'image:", imageCategory);
 
-  // Ajoute un écouteur d'événements au clic sur l'icône de fermeture
-  closeIcon.addEventListener("click", closeLightbox);
+  console.log("Avant de sélectionner les éléments de la lightbox");
+  // Sélectionne les éléments de la lightbox
+  const lightbox = document.getElementById("lightbox");
+  console.log("lightbox:", lightbox);
+  const lightboxImage = document.getElementById("lightbox-image");
+  console.log("lightboxImage:", lightboxImage);
+  const lightboxCaption = document.getElementById("lightbox-caption");
+  console.log("lightboxCaption:", lightboxCaption);
 
-  // Ajoute un écouteur d'événements au clic en dehors de la lightbox pour la fermer
-  document.addEventListener("click", function (event) {
-    var lightbox = document.getElementById("lightbox");
-    if (event.target === lightbox) {
-      closeLightbox();
-    }
-  });
-});
+  // Mettre à jour l'image et la légende de la lightbox
+  lightboxImage.setAttribute("src", imageURL);
+  lightboxCaption.innerHTML = imageCategory;
+
+  // Ajoute la classe pour afficher la lightbox
+  lightbox.classList.add("lightbox-open");
+  console.log("La lightbox est ouverte !");
+}
+// Fonction pour fermer la lightbox
+function closeLightbox() {
+  const lightbox = document.querySelector(".lightbox");
+  lightbox.style.display = "none";
+}
+// Appel de la fonction principale
+initializeLightbox();

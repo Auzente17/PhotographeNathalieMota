@@ -8,7 +8,7 @@
         <!-- Conteneur de l'image de la lightbox -->
         <div class="lightbox-image-container">
             <!-- Image affichée dans la lightbox -->
-            <img id="lightbox-image" classe="lightbox-image" src="" alt="">
+            <img id="lightbox-image" class="lightbox-image" src="" alt="">
         </div>
         <!-- Conteneur de la légende de l'image -->
         <div class="lightbox-caption" id="lightbox-caption">

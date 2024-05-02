@@ -28,13 +28,13 @@ function theme_enqueue_scripts_and_styles() {
   // Enregistrer le script Select2
   wp_enqueue_script('select2-js', get_stylesheet_directory_uri() . '/js/select2.js', array('jquery'), '1.0.0', true);
 
+  // Localiser l'url d'administration Ajax pour une utilisation dans les scripts JavaScript
+  wp_localize_script('filtres-js', 'ajax_params', array('ajax_url' => admin_url('admin-ajax.php')));
+  
   // Enregistrer le script pour les filtres dans la page d'accueil
   wp_enqueue_script('filtres-js', get_stylesheet_directory_uri() . '/js/filtres.js', array('jquery'), '1.0.0', true);
 
-  // Localiser l'url d'administration Ajax pour une utilisation dans les scripts JavaScript
-  wp_localize_script('filtres-js', 'ajax_params', array('ajax_url' => admin_url('admin-ajax.php')
-    ));
-  
+    
   // Enregistrer le script pour la lightbox 
   wp_enqueue_script('lightbox-js', get_stylesheet_directory_uri() . '/js/lightbox.js', array(), time(), true);
     
