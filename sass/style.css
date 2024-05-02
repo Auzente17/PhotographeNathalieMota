@@ -117,7 +117,7 @@ footer .footer-menu li {
   margin: 0 60px;
 }
 footer .footer-menu li a {
-  font-family: "Space Mono", sans-serif;
+  font-family: "SpaceMono-Regular";
   font-size: 16px;
   color: #000;
   text-decoration: none;
@@ -1005,4 +1005,62 @@ footer .footer-menu li a:hover {
 
 #annees {
   margin-left: auto;
+}
+
+/* Styles pour la lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  overflow: auto;
+}
+.lightbox-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.lightbox-content {
+  position: relative;
+  margin: auto;
+  padding: 20px;
+  max-width: 800px;
+}
+.lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+.lightbox-image-container {
+  text-align: center;
+}
+.lightbox-caption {
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
+}
+.lightbox-navigation {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.lightbox-navigation span {
+  color: #fff;
+  cursor: pointer;
+  margin: 0 10px;
+}
+.lightbox-previous {
+  float: left;
+}
+.lightbox-next {
+  float: right;
 }/*# sourceMappingURL=style.css.map */

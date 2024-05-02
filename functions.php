@@ -34,6 +34,10 @@ function theme_enqueue_scripts_and_styles() {
   // Localiser l'url d'administration Ajax pour une utilisation dans les scripts JavaScript
   wp_localize_script('filtres-js', 'ajax_params', array('ajax_url' => admin_url('admin-ajax.php')
     ));
+  
+  // Enregistrer le script pour la lightbox 
+  wp_enqueue_script('lightbox-js', get_stylesheet_directory_uri() . '/js/lightbox.js', array(), time(), true);
+    
 }
 
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles' );

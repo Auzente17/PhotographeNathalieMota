@@ -45,13 +45,13 @@ $categorie = !empty($categories) ? $categories[0]->name : '';
         <!-- Ajout de l'icône pour voir la photo en détail -->
         <div class="eye-icon">
             <a href="<?php echo esc_url($url_post); ?>">
-                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/icon_eye.png" alt="Voir la photo">
+                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/icon_eye.svg" alt="Voir la photo">
             </a>
         </div>
 
         <!-- Ajout de l'icône fullscreen avec des attributs de données -->
         <div class="icon-fullscreen" data-full ="<?php echo esc_attr($photoUrl); ?>" data-category ="<?php echo esc_attr($categorie); ?>" data-reference="<?php echo esc_attr($reference); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/Icon_fullscreen.png" alt="Icone fullscreen">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/Icon_fullscreen.svg" alt="Voir l'image en plein écran">
         </div>
     </div>
 </div>

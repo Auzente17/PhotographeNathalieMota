@@ -1,24 +1,27 @@
 console.log("Le js pour les filtres s'est correctement chargé");
 
 jQuery(document).ready(function ($) {
-  var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
-  console.log(ajaxurl);
+  var ajaxurl = ajax_params.ajaxurl;
+  console.log(ajax_params.ajaxurl);
 
   // Initialise Select2 sur les sélecteurs
   $(".custom-select").select2(); // pour cibler les nouveaux sélecteurs custom
 
   // Charger dynamiquement les options de catégorie d'événement
   $("#event-category").on("change", function () {
+    console.log("Changement détecté dans la catégorie d'événement.");
     filterPhotos();
   });
 
   // Charger dynamiquement les options de format de photo
   $("#photo-format").on("change", function () {
+    console.log("Changement détecté dans le format de photo.");
     filterPhotos();
   });
 
   // Gestionnaire d'événement pour le changement dans le champs de sélection pour le tri par date
   $("#annes").on("change", function () {
+    console.log("Changement détecté dans le tri par date.");
     filterPhotos();
   });
 
@@ -44,7 +47,7 @@ jQuery(document).ready(function ($) {
 
       error: function (xhr, status, error) {
         console.error(xhr.responseText);
-        console.log(xhr.status.error);
+        console.log(xhr.status);
       },
     });
   }
