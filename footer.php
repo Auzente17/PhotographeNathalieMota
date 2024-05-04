@@ -9,6 +9,8 @@
 ) );
 ?>
 
+</nav>
+
 <!-- Fonction pour appeler le template contact-modal.php -->
 <?php get_template_part('templates-parts/contact-modal'); ?>
 
@@ -16,7 +18,7 @@
 <!-- Fonction pour appeler le template de la lightbox -->
 <?php get_template_part('templates-parts/lightbox'); ?>
 
-</nav>
+
     </footer>
     <?php wp_footer(); ?>
     

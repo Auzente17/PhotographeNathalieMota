@@ -1,7 +1,6 @@
 <!-- Structure HTML de la lightbox -->
 <div id="lightbox" class="lightbox">
     <!-- Overlay sombre qui s'affiche en arrière plan de la lightbox -->
-    <div class="lightbox-overlay"></div>
     <div class="lightbox-content">
         <!-- Bouton de fermeture de la lightbox -->
         <img class="lightbox-close" src="<?= get_stylesheet_directory_uri() . '/assets/images/white-cross.svg'; ?>" alt="croix" loading="eager">

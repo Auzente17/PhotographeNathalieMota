@@ -4,8 +4,7 @@ jQuery(document).ready(function ($) {
   $("#load-more-btn").on("click", function () {
     console.log("ok");
     var offset = $(this).data("offset");
-    var security = $(this).data("security");
-    console.log(security);
+    var security = ajax_params.security;
 
     // Requête AJAX
     $.ajax({
@@ -14,7 +13,7 @@ jQuery(document).ready(function ($) {
       data: {
         action: "load_more_photos", // Action à exécuter dans la fonction PHP
         offset: offset, // Offset pour obtenir les prochaines photos
-        security: security, // Jeton de sécurité
+        security: ajax_params.security, // Jeton de sécurité
       },
       beforeSend: function () {
         // Afficher un indicateur de chargement
@@ -22,7 +21,7 @@ jQuery(document).ready(function ($) {
       },
       success: function (response) {
         // Ajouter les nouvelles photos au conteneur
-        $("#photo-grid").append(response);
+        $("#liste__photo").append(response);
 
         // Mettre à jour l'offset
         $("#load-more-btn").data("offset", offset + 8);

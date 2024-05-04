@@ -132,6 +132,13 @@
   border-bottom: solid black 1px;
   padding-bottom: 30px;
 
+  h2 {
+    font-family: "SpaceMono-Italic";
+    font-size: 65px;
+    font-weight: 400;
+    line-height: 58px;
+    text-transform: uppercase;
+  }
   /* Ajustements pour les petits écrans */
   @media screen and (max-width: 820px) {
     width: 100%;

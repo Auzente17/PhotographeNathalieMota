@@ -1,55 +1,77 @@
-// Fonction principale exécutée lorsque le DOM est chargé
-function initializeLightbox() {
-  console.log("Le JS de la lightbox s'est correctement chargé");
-
-  // Attacher un gestionnaire d'événements lorsque le DOM est chargé
-  document.addEventListener("DOMContentLoaded", function () {
-    // Ajouter un gestionnaire d'événements à chaque icône fullscreen
-    const fullscreenIcons = document.querySelectorAll(".icon-fullscreen");
-    fullscreenIcons.forEach((icon) => {
-      icon.addEventListener("click", openLightbox.bind(icon));
-    });
-
-    // Ajouter un gestionnaire d'événements au bouton de fermeture
-    const closeButton = document.querySelector(".lightbox-close");
-    closeButton.addEventListener("click", closeLightbox);
-  });
-}
-
-// Fonction pour ouvrir la lightbox
-function openLightbox(event) {
-  console.log("La fonction openLightbox est appelée !");
-  console.log("L'icône fullscreen a été cliquée !");
-  // Empêche le comportement par défaut du lien
-  event.preventDefault();
-
-  // Récupère les données de l'icône fullscreen cliquée
-  const imageURL = event.currentTarget.getAttribute("data-full");
-  console.log("URL de l'image:", imageURL);
-  const imageCategory = event.currentTarget.getAttribute("data-category");
-  console.log("Catégorie de l'image:", imageCategory);
-
-  console.log("Avant de sélectionner les éléments de la lightbox");
-  // Sélectionne les éléments de la lightbox
+// Écoute l'événement 'DOMContentLoaded' pour s'assurer que le DOM est complètement chargé
+document.addEventListener("DOMContentLoaded", () => {
+  // Sélection des éléments du DOM nécessaires
   const lightbox = document.getElementById("lightbox");
   console.log("lightbox:", lightbox);
   const lightboxImage = document.getElementById("lightbox-image");
-  console.log("lightboxImage:", lightboxImage);
-  const lightboxCaption = document.getElementById("lightbox-caption");
-  console.log("lightboxCaption:", lightboxCaption);
+  const lightboxCategory = document.querySelector(".lightbox-category");
+  const lightboxReference = document.querySelector(".lightbox-reference");
+  let currentIndex = 0; // Indice de l'image actuellement affichée dans la lightbox
 
-  // Mettre à jour l'image et la légende de la lightbox
-  lightboxImage.setAttribute("src", imageURL);
-  lightboxCaption.innerHTML = imageCategory;
+  // Fonction pour mettre à jour le contenu de la lightbox en fonction de l'index de l'image
+  function updateLightbox(index) {
+    // Sélection de l'image correspondant à l'index
+    const images = document.querySelectorAll(".icon-fullscreen");
+    const image = images[index];
 
-  // Ajoute la classe pour afficher la lightbox
-  lightbox.classList.add("lightbox-open");
-  console.log("La lightbox est ouverte !");
-}
-// Fonction pour fermer la lightbox
-function closeLightbox() {
-  const lightbox = document.querySelector(".lightbox");
-  lightbox.style.display = "none";
-}
-// Appel de la fonction principale
-initializeLightbox();
+    // Récupération des données associées à l'image
+    const categoryText = image.getAttribute("data-category").toUpperCase();
+    const referenceText = image.getAttribute("data-reference").toUpperCase();
+
+    // Mise à jour des éléments de la lightbox avec les nouvelles données
+    lightboxImage.src = image.getAttribute("data-full");
+    lightboxCategory.textContent = categoryText;
+    lightboxReference.textContent = referenceText;
+    currentIndex = index;
+  }
+
+  // Fonction pour ouvrir la lightbox avec une image spécifique (index)
+  function openLightbox(index) {
+    console.log("La fonction openLightbox est appelée !");
+    updateLightbox(index);
+    lightbox.style.display = "block";
+  }
+
+  // Fonction pour fermer la lightbox
+  function closeLightbox() {
+    lightbox.style.display = "none";
+  }
+
+  // Gestionnaire d'événement pour le clic sur une image
+  const imageClickHandler = (event) => {
+    const images = Array.from(document.querySelectorAll(".icon-fullscreen"));
+    const index = images.indexOf(event.currentTarget);
+    openLightbox(index);
+  };
+
+  // Fonction pour attacher les événements aux images
+  function attachEventsToImages() {
+    const images = document.querySelectorAll(".icon-fullscreen");
+    images.forEach((image) => {
+      image.removeEventListener("click", imageClickHandler);
+      image.addEventListener("click", imageClickHandler);
+    });
+  }
+
+  // Attachement des événements aux images lors du chargement initial
+  attachEventsToImages();
+
+  // Gestionnaire d'événement pour le clic sur le bouton de fermeture
+  document
+    .querySelector(".lightbox-close")
+    .addEventListener("click", closeLightbox);
+
+  // Gestionnaire d'événement pour le clic sur le bouton précédent
+  document.querySelector(".lightbox-previous").addEventListener("click", () => {
+    const images = document.querySelectorAll(".icon-fullscreen");
+    currentIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+    updateLightbox(currentIndex);
+  });
+
+  // Gestionnaire d'événement pour le clic sur le bouton suivant
+  document.querySelector(".lightbox-next").addEventListener("click", () => {
+    const images = document.querySelectorAll(".icon-fullscreen");
+    currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+    updateLightbox(currentIndex);
+  });
+});
