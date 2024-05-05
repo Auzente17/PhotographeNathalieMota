@@ -2,47 +2,53 @@
 
 function theme_enqueue_scripts_and_styles() {
 
+  // Enregistrer les styles
   wp_enqueue_style( 'thème-style', get_template_directory_uri() . '/style.css' );
-
-  // Enregistrer le style principal du thème
   wp_enqueue_style('PhotographeNathalieMota-style', get_stylesheet_directory_uri() . '/sass/style.css', array(), time());
-
-  // Enregistrer la feuille de script
+  
+  // Enregistrer les scripts
+  wp_enqueue_script('jquery');
   wp_enqueue_script( 'PhotographeNathalieMota-script', get_stylesheet_directory_uri() . '/js/script.js', array('jquery'), '1.0.0', true );
-  
-  // Enregistrer le script d'une fenêtre modale de contact qui est charge dans le pied de page (footer) du site. 
   wp_enqueue_script('contact-modal-js', get_theme_file_uri() . '/js/contact-modal.js', array(), time(), true);
-
-  // Afficher les images miniature (script JQuery)
   wp_enqueue_script('miniature-js', get_stylesheet_directory_uri() . '/js/miniature.js', array('jquery'), '1.0.0', true);
-
-  // Enregistrer le script pour la pagination dans la page d'accueil
   wp_enqueue_script('pagination-js', get_stylesheet_directory_uri() . '/js/pagination.js', array('jquery'), '1.0.0', true);
-
-  // Localiser l'url d'administration Ajax pour une utilisation dans les scripts JavaScript
-  wp_localize_script('pagination-js', 'ajax_params', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => wp_create_nonce('load_more_photos'),));
-
-  // Include bibliothèque Select2 CSS
-  wp_enqueue_style('select2-style', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
-    
-  // Include bibliothèque Select2 JavaScript
-  wp_enqueue_script('select2-script', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array('jquery'), '4.1.0', true);
-  
-  // Enregistrer le script Select2
-  wp_enqueue_script('select2-js', get_stylesheet_directory_uri() . '/js/select2.js', array('jquery'), '1.0.0', true);
-
-  // Enregistrer le script pour les filtres dans la page d'accueil
-  wp_enqueue_script('filtres-js', get_stylesheet_directory_uri() . '/js/filtres.js', array('jquery'), '1.0.0', true);
-  
-  // Localiser l'url d'administration Ajax pour une utilisation dans les scripts JavaScript
-  wp_localize_script('filtres-js', 'ajax_params', array('ajax_url' => admin_url('admin-ajax.php'), 'security' => wp_create_nonce('load_more_photos')));
-    
-  // Enregistrer le script pour la lightbox 
   wp_enqueue_script('lightbox-js', get_stylesheet_directory_uri() . '/js/lightbox.js', array(), time(), true);
-    
+  
+  // Enregistrer et localiser les scripts pour Select2
+  wp_enqueue_script('select2-script', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array('jquery'), '4.1.0', true);
+  wp_enqueue_style('select2-style', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+  wp_enqueue_script('select2-js', get_stylesheet_directory_uri() . '/js/select2.js', array('jquery'), '1.0.0', true);
+  
+  // Localiser les scripts pour AJAX
+  wp_localize_script('pagination-js', 'ajax_params', array(
+    'ajax_url' => admin_url('admin-ajax.php'),
+    'security' => wp_create_nonce('load_more_photos')
+));
+
+// Localiser les scripts pour AJAX
+wp_localize_script('pagination-js', 'ajax_params', array(
+  'ajax_url' => admin_url('admin-ajax.php'),
+  'security' => wp_create_nonce('load_more_photos')
+));
+  
 }
 
-add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles' );
+add_action( 'wp_enqueue_scripts', 'theme_enqueue_scripts_and_styles');
+
+
+function load_scripts() {
+  // Enregistrer le script pour les filtres dans la page d'accueil
+  wp_enqueue_script('filtres-js', get_stylesheet_directory_uri() . '/js/filtres.js', array('jquery'), '1.0.0', true);
+  // Enregistrez et localisez une seule fois pour tous les scripts nécessitant ajax_params
+  wp_localize_script('filtres-js', 'ajax_params', array(
+    'ajax_url' => admin_url('admin-ajax.php'), 
+    'security' => wp_create_nonce('load_more_photos')
+  ));
+
+}
+
+add_action( 'wp_enqueue_scripts', 'load_scripts' );
+
 
 // Fonction pour ajouter la prise en charge du logo personnalisé dans le thème
 // prise en charge du logo personnalisé avec des dimensions flexibles
@@ -89,31 +95,29 @@ function get_taxonomy_options($taxonomy_name) {
 
 // Fonction pour charger plus de photos via AJAX
 function load_more_photos() {
+  error_log('Received security nonce: ' . $_POST['security']);
+  error_log('Received offset: ' . $_POST['offset']);
+  // Vérification de la sécurité
+  if (!isset($_POST['security']) && wp_verify_nonce($_POST['security'], 'load_more_photos')) {
+    wp_die('Sécurité de la requête non vérifiée.');
+}
   // Récupérer l'offset à partir de la requête AJAX
   $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
   $per_page = 8; // Nombre de photos à charger à chaque fois
-
-  // Vérifier le jeton de sécurité 
-  if ( ! check_ajax_referer('load-more-photos', 'security', false)) {
-    // Si le jeton de sécurité est invalide, arrêtez l'executions de la fonction
-  wp_die( 'Erreur de sécurité' );
-  }
-
   // Arguments de la requête pour récupérer les photos
   $args = array(
     'post_type'      => 'photo',     // Type de publication : photo
-    'posts_per_page' => $per_page,   // Nombre de photos par page (-1 pour toutes)
+    'posts_per_page' =>  $per_page,   // Nombre de photos par page (-1 pour toutes)
+    'offset'         => $offset,     // Offset pour obtenir les prochaines photos
     'orderby'        => 'date',      // Tri aléatoire
     'order'          => 'DESC',      // Ordre ascendant
-    'offset'         => $offset,   // Offset pour obtenir les prochaines photos
 );
-
 // Exécute la requête WP_Query avec les arguments
 $photo_block = new WP_Query($args);
-
+error_log('Requête SQL: ' . $photo_block->request);  // Log la requête SQL
+error_log('Nombre de posts trouvés: ' . $photo_block->found_posts);  // Log le nombre de posts trouvés
 // Initialise la variable pour stocker le HTML des nouvelles photos
 $output = '';
-
 // Vérifie s'il y a des photos dans la requête
 if ($photo_block->have_posts()) {
      // Boucle à travers les photos
@@ -124,109 +128,100 @@ if ($photo_block->have_posts()) {
         get_template_part('template-parts/block-photo');
         $output .= ob_get_clean();
       }
-     
      // Réinitialise les données post
      wp_reset_postdata();
     } else {
       // Aucune photo trouvée
-      $output = 'Aucune photo trouvée';
+      error_log('Aucun post trouvé pour les critères donnés avec offset: ' . $offset);
+      echo 'Aucune photo trouvée. Vérifiez les logs pour plus d\'informations.';
     }
-
   // Retourne le HTML des nouvelles photos
   echo $output;
-
   // Arrête l'exécution de la fonction
   wp_die();
-}  
-
+}
 // Ajout des actions pour les requêtes AJAX
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 
-// Fonction pour filtrer les photos via AJAX
-function filter_photos() {
-  error_log("Fonction filter_photos appelée");
-  
+// // Fonction pour filtrer les photos via AJAX
+// function filter_photos() {
+//   // Vérifier si la clé 'security' est présente et le nonce est valide
+//   if (empty($_POST['security']) || !wp_verify_nonce($_POST['security'], 'load_more_photos')) {
+//       error_log('Nonce absent ou invalide');
+//       wp_die('Erreur de sécurité: Nonce absent ou invalide');
+//   }
 
- // Vérifier le jeton de sécurité
- if (isset($_POST['security'])) {
-  error_log('La variable security n\'est pas présente dans le tableau $_POST');
-} if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'load_more_photos')) {
-  error_log('Jeton de sécurité invalide');
-  wp_die('Erreur de sécurité');
-} else {
-  error_log('Jeton de sécurité valide');
-}
+//  // Vérification de présence des champs de filtre
+//  $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : 'Non spécifiée';
+//  $format = isset($_POST['format']) ? sanitize_text_field($_POST['format']) : 'Non spécifié';
+//  $annees = isset($_POST['annees']) ? sanitize_text_field($_POST['annees']) : 'Non spécifiées';
 
-  // Récupérer les données des filtres
-  $category = isset($_POST['category']) ? $_POST['category'] : '';
-  $format = isset($_POST['format']) ? $_POST['format'] : '';
-  $annees = isset($_POST['annees']) ? $_POST['annees'] : '';
 
-  error_log('Catégorie sélectionnée : ' . $category);
-  error_log('Format sélectionné : ' . $format);
-  error_log('Années sélectionnées : ' . $annees);
+//   error_log('Catégorie sélectionnée : ' . $category);
+//   error_log('Format sélectionné : ' . $format);
+//   error_log('Années sélectionnées : ' . $annees);
 
-  // Arguments de la requête pour récupérer les photos
-  $args = array(
-    'post_type'      => 'photo',
-    'posts_per_page' => -1,
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-  );
+//   // Arguments de la requête pour récupérer les photos
+//   $args = array(
+//     'post_type'      => 'photo',
+//     'posts_per_page' => -1,
+//     'orderby'        => 'date',
+//     'order'          => 'DESC',
+//   );
 
-  // Ajouter les filtres aux arguments de la requête
-  if (!empty($category)) {
-    $args['tax_query'][] = array(
-      'taxonomy' => 'categorie',
-      'field'    => 'slug',
-      'terms'    => $category,
-    );
-  }
+//   // Ajouter les filtres aux arguments de la requête
+//   if (!empty($category)) {
+//     $args['tax_query'][] = array(
+//       'taxonomy' => 'categorie',
+//       'field'    => 'slug',
+//       'terms'    => $category,
+//     );
+//   }
 
-  if (!empty($format)) {
-    $args['tax_query'][] = array(
-      'taxonomy' => 'format',
-      'field'    => 'slug',
-      'terms'    => $format,
-    );
-  }
+//   if (!empty($format)) {
+//     $args['tax_query'][] = array(
+//       'taxonomy' => 'format',
+//       'field'    => 'slug',
+//       'terms'    => $format,
+//     );
+//   }
 
-  if (!empty($annees)) {
-    $args['date_query'] = array(
-      'year' => $annees,
-    );
-  }
+//   if (!empty($annees)) {
+//     $args['date_query'] = array(
+//       'year' => $annees,
+//     );
+//   }
 
-  // Exécute la requête WP_Query avec les arguments
-  $query = new WP_Query($args);
+//   // Exécute la requête WP_Query avec les arguments
+//   $query = new WP_Query($args);
 
-  $output = ''; // Initialiser la variable $output à une chaîne vide
+//   $output = ''; // Initialiser la variable $output à une chaîne vide
 
-  // Vérifie si la requête a retourné des résultats
-  if ($query->have_posts()) {
-    while ($query->have_posts()) {
-        $query->the_post();
-        ob_start();
-        get_template_part('template-parts/block-photo');
-        $output .= ob_get_clean();
-    }
-} else {
-    error_log('Aucune photo trouvée');
-    $output = 'Aucune photo trouvée';
-}
+//   // Vérifie si la requête a retourné des résultats
+//   if ($query->have_posts()) {
+//     while ($query->have_posts()) {
+//         $query->the_post();
+//         ob_start();
+//         get_template_part('template-parts/block-photo');
+//         $output .= ob_get_clean();
+//     }
+// } else {
+//     error_log('Aucune photo trouvée');
+//     $output = 'Aucune photo trouvée';
+// }
 
-wp_reset_postdata();
+// wp_reset_postdata();
 
-echo $output;
+// echo $output;
 
-wp_die();
-}
+// wp_die();
+// }
 
 // Ajout des actions pour les requêtes AJAX de filtrage
-add_action('wp_ajax_filter_photos', 'filter_photos');
-add_action('wp_ajax_nopriv_filter_photos', 'filter_photos');
+//add_action('wp_ajax_filter_photos', 'filter_photos');
+//add_action('wp_ajax_nopriv_filter_photos', 'filter_photos');
 
 
 
