@@ -1,64 +1,61 @@
-console.log("Le js pour les filtres s'est correctement chargé");
+console.log("Le JS de filtres s'est correctement chargé");
 
-jQuery(document).ready(function ($) {
-  var ajaxurl = ajax_params.ajax_url;
-  var security = ajax_params.security;
-  console.log(security);
-
-  console.log(ajax_params.ajax_url);
-
-  // Initialise Select2 sur les sélecteurs
-  $(".custom-select").select2(); // pour cibler les nouveaux sélecteurs custom
-
-  // Charger dynamiquement les options de catégorie d'événement
-  $("#categorie").on("change", function () {
-    console.log("Changement détecté dans la catégorie d'événement.");
-    filterPhotos();
+// Attend que le document soit prêt avant d'appliquer les fonctionnalités
+jQuery(function ($) {
+  // Initialise le plugin Select2 sur les éléments avec la classe ".custom-select"
+  $(".custom-select").select2({
+    // Définit la position du menu déroulant en dessous
+    dropdownPosition: "below",
   });
 
-  // Charger dynamiquement les options de format de photo
-  $("#format").on("change", function () {
-    console.log("Changement détecté dans le format de photo.");
-    filterPhotos();
-  });
-
-  // Gestionnaire d'événement pour le changement dans le champs de sélection pour le tri par date
-  $("#annees").on("change", function () {
-    console.log("Changement détecté dans le tri par date.");
-    filterPhotos();
-  });
-
-  // Fonction pour filtrer les photos en fonction des options sélectionnés dans les champs de sélection
-  function filterPhotos() {
-    var category = $("#categorie").val();
-    var format = $("#format").val();
-    var sortByDate = $("#annees").val(); // Utilise la valeur du champ de tri par date
-
-    $.ajax({
-      url: ajax_params.ajax_url,
-      type: "POST",
-      data: {
-        security: security, // Jeton de sécurité
-        action: "filter_photos",
-        category: category,
-        format: format,
-        sortByDate: sortByDate,
-      },
-      success: function (response) {
-        // Mettre à jour la liste des photos avec les résultats de la requête AJAX
-        $("#liste__photo").html(response);
-      },
-
-      error: function (xhr, status, error) {
-        console.error(xhr.responseText);
-        console.log(xhr.status);
-      },
-      fail: function (jqXHR, textStatus, errorThrown) {
-        console.error(
-          "Échec de la requête AJAX : " + textStatus + " - " + errorThrown
-        );
-        console.error("Réponse du serveur : " + jqXHR.responseText);
-      },
+  // Fonction pour récupérer les valeurs sélectionnées dans les filtres
+  function getFilterValues() {
+    var filters = {};
+    $(".custom-select").each(function () {
+      var selectId = $(this).attr("id");
+      var selectValue = $(this).val();
+      if (selectValue !== null && selectValue !== "") {
+        filters[selectId] = selectValue;
+      }
     });
+    return filters;
   }
+
+  // Fonction pour charger les photos en fonction des filtres sélectionnés
+  function loadPhotos() {
+    console.log("loadPhotos appelée");
+    var filters = getFilterValues();
+    console.log("Appel de loadPhotos() avec les filtres suivants :", filters);
+    var data = {
+      action: "filter_photos",
+      security: ajax_params.security,
+      ...filters,
+    };
+    $.post(ajax_params.ajax_url, data)
+      .done(function (response) {
+        console.log("Réponse reçue :", response);
+        if (response.trim() !== "") {
+          $("#liste__photo").html(response);
+        }
+      })
+      .fail(function (jqXRH, textStatus, errorThrown) {
+        console.error(
+          "Erreur lors de la requête AJAX :",
+          textStatus,
+          errorThrown
+        );
+      });
+  }
+  console.log("Photos initiales chargés");
+  // Attendre 100 ms avant d'appeler loadPhotos() pour la première fois
+  setTimeout(function () {
+    // Charge les photos initiales
+    loadPhotos();
+  }, 100);
+  console.log("Photos initiales chargés");
+
+  // Écoute l'événement "change" sur les éléments avec la classe ".custom-select"
+  $(".custom-select").change(function () {
+    loadPhotos();
+  });
 });

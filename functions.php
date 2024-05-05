@@ -120,7 +120,9 @@ if ($photo_block->have_posts()) {
      while ($photo_block->have_posts()) {
          $photo_block->the_post();
          // Inclure le template "block-photo.php"
+        ob_start();
         get_template_part('template-parts/block-photo');
+        $output .= ob_get_clean();
       }
      
      // Réinitialise les données post
@@ -144,11 +146,18 @@ add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 // Fonction pour filtrer les photos via AJAX
 function filter_photos() {
-  // Vérifier le jeton de sécurité
-  if ( ! check_ajax_referer('load_more_photos', 'security', false)) {
-    error_log('Jeton de sécurité invalide');
-   wp_die( 'Erreur de sécurité' );
-  }
+  error_log("Fonction filter_photos appelée");
+  
+
+ // Vérifier le jeton de sécurité
+ if (isset($_POST['security'])) {
+  error_log('La variable security n\'est pas présente dans le tableau $_POST');
+} if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'load_more_photos')) {
+  error_log('Jeton de sécurité invalide');
+  wp_die('Erreur de sécurité');
+} else {
+  error_log('Jeton de sécurité valide');
+}
 
   // Récupérer les données des filtres
   $category = isset($_POST['category']) ? $_POST['category'] : '';
@@ -191,43 +200,28 @@ function filter_photos() {
   }
 
   // Exécute la requête WP_Query avec les arguments
-  $photo_query = new WP_Query($args);
+  $query = new WP_Query($args);
+
+  $output = ''; // Initialiser la variable $output à une chaîne vide
 
   // Vérifie si la requête a retourné des résultats
-  if ($photo_query->have_posts()) {
-    // Boucle à travers les photos
-    while ($photo_query->have_posts()) {
-      $photo_query->the_post();
-      // Inclure le template "block-photo.php"
-      get_template_part('template-parts/block-photo');
+  if ($query->have_posts()) {
+    while ($query->have_posts()) {
+        $query->the_post();
+        ob_start();
+        get_template_part('template-parts/block-photo');
+        $output .= ob_get_clean();
     }
-
-  // Initialise la variable pour stocker l'URL de l'image
-  //$photo_url = '';
-
-  // Vérifie s'il y a des photos dans la requête
-  //if ($photo_block->have_posts()) {
-    // Boucle à travers les photos
-   // while ($photo_block->have_posts()) {
-     //   $photo_block->the_post();
-        // Inclure le template "block-photo.php"
-      // get_template_part('template-parts/block-photo');
-    // }
-
-    // Réinitialise les données post
-    wp_reset_postdata();
-   } else {
-     // Aucune photo trouvée
-    // $output = 'Aucune photo trouvée';
+} else {
     error_log('Aucune photo trouvée');
-    echo 'Aucune photo trouvée';
-   }
+    $output = 'Aucune photo trouvée';
+}
 
- // Retourne le HTML des photos filtrées
- echo $output;
+wp_reset_postdata();
 
- // Arrête l'exécution de la fonction
- wp_die();
+echo $output;
+
+wp_die();
 }
 
 // Ajout des actions pour les requêtes AJAX de filtrage

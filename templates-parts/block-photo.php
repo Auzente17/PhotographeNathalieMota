@@ -6,12 +6,6 @@ $photoUrl = get_the_post_thumbnail_url(get_the_ID(), 'large');
 if ($photoUrl) {
        
    
-} else {
-    //  l'URL de l'image n'a pas pu être récupérée
-    echo 'Aucune URL d\'image trouvée.<br>';
-}
-
-
 // Pour récupérer le titre de la photo
 $title_photo = get_the_title();
 
@@ -55,3 +49,9 @@ $categorie = !empty($categories) ? $categories[0]->name : '';
         </div>
     </div>
 </div>
+
+<?php
+} else {
+    //  l'URL de l'image n'a pas pu être récupérée
+    echo 'Aucune URL d\'image trouvée.<br>';
+}
