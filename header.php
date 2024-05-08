@@ -13,8 +13,7 @@
     wp_body_open(); ?>
     
 <header>
-        <nav id="nav-bar" class="navbar">
-          
+        <nav id="nav-bar" class="navbar" role="navigation">
             <!-- Logo -->
             <div class="navbar__logo">
                 <a href="<?php echo esc_url( home_url( '/')); ?>">
@@ -22,6 +21,14 @@
                 </a>
             </div>
             
+             <!-- Menu burger -->
+             <div class="burgerMenu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            
+
             <!-- Menu principal -->
             <div class="navbar__menu">
                 <?php
@@ -30,7 +37,8 @@
                     'theme_location' => 'menu-principal',
                     'container'      => 'false',
                     'menu_class'     => 'menu',
-                ) );
+                )
+            );
                 ?>
                 
             </div>

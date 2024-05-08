@@ -1,34 +1,30 @@
-jQuery(document).ready(function ($) {
-  $("#load-more-btn").click(function () {
-    var btn = $(this);
-    var offset = btn.data("offset");
-    var nonce = btn.data("security");
+(function ($) {
+  var offset = 8; // Suppose que les 8 premières photos sont déjà chargées
+  var nberphotos = 8; // Nombre de photos à charger par requête
 
-    $.ajax({
-      url: ajaxobject.ajax_url, // Utilisez l'URL localisée ici
-      type: "POST",
-      data: {
-        action: "load_more_photos", // L'action que WordPress doit exécuter
-        nonce: nonce,
-        offset: offset,
-      },
-      beforeSend: function () {
-        btn.text("Chargement..."); // Feedback de chargement pour l'utilisateur
-      },
-      success: function (response) {
-        if (response.success) {
-          $("#liste__photo").append(response.data);
-          btn.data("offset", offset + 8);
-          btn.text("Charger plus"); // Incrémenter l'offset pour le prochain chargement
-        } else {
-          btn.text("Plus de photos à charger");
-          btn.prop("disabled", true); // Désactiver le bouton s'il n'y a plus de photos à charger
-        }
-      },
-      error: function (xhr) {
-        alert("Erreur de chargement : " + xhr.responseText);
-        btn.text("Charger plus");
-      },
+  function loadMorePhotos() {
+    var data = {
+      action: "load_more_photos",
+      offset: offset,
+      nonce: ajax_filtres.ajax_nonce,
+    };
+
+    $.post(ajax_filtres.ajax_url, data, function (response) {
+      var $response = $(response);
+      if (!$response.trim() || $response.children().length < nberphotos) {
+        $("#load-more-btn").hide();
+      } else {
+        $("#liste__photo").append(response);
+        offset += nberphotos; // Mettre à jour l'offset pour le prochain chargement
+        $("#load-more-btn").show();
+      }
+    }).fail(function (xhr) {
+      console.log("Erreur lors du chargement des photos :", xhr.responseText);
+      $("#load-more-btn").text("Erreur, essayez de nouveau");
     });
+  }
+
+  $("#load-more-btn").click(function () {
+    loadMorePhotos();
   });
-});
+})(jQuery);

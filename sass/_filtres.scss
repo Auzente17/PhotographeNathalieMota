@@ -39,3 +39,29 @@
 #annees {
   margin-left: auto;
 }
+
+/* CSS spécifique pour les écrans mobiles */
+@media screen and (max-width: 768px) {
+  #filtres-section .filtres-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filters-left,
+  .filters-right {
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .custom-select,
+  #annees {
+    width: auto;
+    margin-bottom: 8px;
+  }
+
+  #annees {
+    margin-left: 0;
+  }
+}

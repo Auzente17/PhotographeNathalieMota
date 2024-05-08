@@ -9,3 +9,22 @@
 @import "select2";
 @import "filtres";
 @import "lightbox";
+
+body {
+  max-width: 1440px;
+  font-family: "space_monoregular";
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin: auto;
+  ul {
+    list-style-type: none;
+  }
+
+  a {
+    color: black;
+    text-decoration: none;
+    font-family: "SpaceMono-Regular";
+    text-transform: uppercase;
+  }
+}

@@ -12,7 +12,8 @@ function theme_enqueue_scripts_and_styles() {
   wp_enqueue_script('contact-modal-js', get_theme_file_uri() . '/js/contact-modal.js', array(), time(), true);
   wp_enqueue_script('miniature-js', get_stylesheet_directory_uri() . '/js/miniature.js', array('jquery'), '1.0.0', true);
   wp_enqueue_script('lightbox-js', get_stylesheet_directory_uri() . '/js/lightbox.js', array(), time(), true);
-  
+  wp_enqueue_script('burger-js', get_stylesheet_directory_uri() . '/js/burger.js', array(), time(), true);
+
   // Enregistrer et localiser les scripts pour Select2
   wp_enqueue_script('select2-script', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array('jquery'), '4.1.0', true);
   wp_enqueue_style('select2-style', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
@@ -20,7 +21,7 @@ function theme_enqueue_scripts_and_styles() {
   
   // Localiser les scripts pour AJAX
   wp_enqueue_script('pagination-js', get_stylesheet_directory_uri() . '/js/pagination.js', array('jquery'), '1.0.0', true);
-  wp_localize_script('pagination-js', 'ajaxobject', array(
+  wp_localize_script('pagination-js', 'ajax_filtres', array(
     'ajax_url' => admin_url('admin-ajax.php'),
     'ajax_nonce' => wp_create_nonce('filtre_photos_nonce')
 ));

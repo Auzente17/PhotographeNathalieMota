@@ -34,8 +34,8 @@
   position: relative;
 
   @media screen and (max-width: 820px) {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
@@ -159,7 +159,7 @@
     /* Ajustements pour les petits écrans */
     @media screen and (max-width: 820px) {
       width: 262px;
-      height: 96px;
+      // height: 96px;
     }
   }
 
