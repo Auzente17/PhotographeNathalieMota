@@ -78,7 +78,7 @@ header {
         flex-direction: column;
         justify-content: space-between;
         cursor: pointer;
-        margin-right: 40px;
+        margin-right: 60px;
 
         .bar {
           width: 100%;
@@ -89,7 +89,7 @@ header {
 
         &.open {
           .bar:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
+            transform: rotate(45deg) translate(5px, 6px);
           }
 
           .bar:nth-child(2) {
@@ -97,7 +97,7 @@ header {
           }
 
           .bar:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
+            transform: rotate(-45deg) translate(5px, -6px);
           }
         }
       }
@@ -117,9 +117,11 @@ header {
         opacity: 0;
         transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
         will-change: max-height, opacity;
+        justify-content: center;
 
         &.open {
-          max-height: 40vh;
+          max-height: 100vh;
+          height: 100vh;
           opacity: 1;
         }
 

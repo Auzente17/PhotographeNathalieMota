@@ -1,30 +1,68 @@
-(function ($) {
-  var offset = 8; // Suppose que les 8 premières photos sont déjà chargées
-  var nberphotos = 8; // Nombre de photos à charger par requête
+// Fonction pour attacher des événements aux images chargées
+function attachEventsToImages() {
+  // Votre logique d'attache d'événements ici
+  console.log("Les photos se chargent");
+}
 
-  function loadMorePhotos() {
-    var data = {
-      action: "load_more_photos",
+// Fonction pour gérer le chargement du contenu additionnel
+function loadMoreContent() {
+  const offset = jQuery("#load-more-btn").data("offset");
+  const ajaxurl = ajax_filtres.ajax_url;
+
+  // Utilisation d'AJAX pour charger plus de contenu
+  jQuery.ajax({
+    url: ajaxurl,
+    type: "post",
+    data: {
+      action: "load_more_photos", // Assurez-vous que ce soit le bon action hook
       offset: offset,
-      nonce: ajax_filtres.ajax_nonce,
-    };
-
-    $.post(ajax_filtres.ajax_url, data, function (response) {
-      var $response = $(response);
-      if (!$response.trim() || $response.children().length < nberphotos) {
-        $("#load-more-btn").hide();
-      } else {
-        $("#liste__photo").append(response);
-        offset += nberphotos; // Mettre à jour l'offset pour le prochain chargement
-        $("#load-more-btn").show();
-      }
-    }).fail(function (xhr) {
-      console.log("Erreur lors du chargement des photos :", xhr.responseText);
-      $("#load-more-btn").text("Erreur, essayez de nouveau");
-    });
-  }
-
-  $("#load-more-btn").click(function () {
-    loadMorePhotos();
+    },
+    success: function (response) {
+      handleLoadResponse(response, offset);
+    },
+    error: function (xhr, status, error) {
+      console.error("Erreur AJAX : " + status + ", détails : " + error);
+      console.error("Réponse du serveur : ", xhr.responseText);
+    },
   });
-})(jQuery);
+}
+
+// Fonction pour traiter la réponse du chargement AJAX
+function handleLoadResponse(response, offset) {
+  if (response == "Aucune photo trouvée.") {
+    handleNoPhotos();
+  } else {
+    appendPhotos(response);
+    updateOffset(offset);
+  }
+}
+
+// Fonction pour masquer le bouton "viewMore" en cas de l'absence de photos
+function handleNoPhotos() {
+  jQuery("#load-more-btn").hide();
+  console.log("Aucune photo n'est disponible.");
+}
+
+// Fonction pour ajouter la réponse à la fin du conteneur des photos
+function appendPhotos(response) {
+  if (response && response.data) {
+    jQuery("#liste__photo").append(response.data);
+    attachEventsToImages();
+  } else {
+    console.error("Erreur: Aucune donnée reçue.");
+  }
+}
+
+// Fonction pour mettre à jour l'offset pour la prochaine requête
+function updateOffset(offset) {
+  jQuery("#load-more-btn").data("offset", offset + 8);
+}
+
+// Utiliser la délégation d'événement sur un parent stable
+jQuery(document).on(
+  "click",
+  "#load-more-container #load-more-btn",
+  function () {
+    loadMoreContent();
+  }
+);

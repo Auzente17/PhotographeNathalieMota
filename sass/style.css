@@ -123,7 +123,7 @@ header .navbar .navbar__menu .menu li a:hover {
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    margin-right: 40px;
+    margin-right: 60px;
   }
   header .navbar .burgerMenu .bar {
     width: 100%;
@@ -132,13 +132,13 @@ header .navbar .navbar__menu .menu li a:hover {
     transition: transform 0.3s ease-in-out;
   }
   header .navbar .burgerMenu.open .bar:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg) translate(5px, 6px);
   }
   header .navbar .burgerMenu.open .bar:nth-child(2) {
     opacity: 0;
   }
   header .navbar .burgerMenu.open .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+    transform: rotate(-45deg) translate(5px, -6px);
   }
   header .navbar .navbar__menu {
     display: flex !important;
@@ -155,9 +155,11 @@ header .navbar .navbar__menu .menu li a:hover {
     opacity: 0;
     transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
     will-change: max-height, opacity;
+    justify-content: center;
   }
   header .navbar .navbar__menu.open {
-    max-height: 40vh;
+    max-height: 100vh;
+    height: 100vh;
     opacity: 1;
   }
   header .navbar .navbar__menu.close {
@@ -242,7 +244,7 @@ footer .footer-menu li a:hover {
   z-index: 999;
   left: 0;
   top: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Ajoute un effet d'assombrissement transparent */
   justify-content: center;
