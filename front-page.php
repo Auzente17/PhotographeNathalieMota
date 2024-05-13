@@ -10,21 +10,7 @@
 
     <!-- Section pour afficher la liste de photos -->
     <section id="liste__photo" class="photo-grid">
-    <?php
-$args = array(
-    'post_type' => 'photo',
-    'posts_per_page' => 8,
-    'orderby' => 'date',
-    'order' => 'DESC',
-);
-$query = new WP_Query($args);
-if ($query->have_posts()) :
-    while ($query->have_posts()) : $query->the_post();
-        get_template_part('templates-parts/block-photo', get_post_format());
-    endwhile;
-    wp_reset_postdata();
-endif;
-?>
+        <?php get_template_part('templates-parts/liste-photos'); ?>
     </section>
 
 <div id="load-more-container">

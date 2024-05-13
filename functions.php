@@ -49,75 +49,65 @@ function enregistrer_menus() {
 
 // Ajout du script load-more-photos.js pour la pagination et pour les filtres avec wp_localize_script pour passer des paramètres AJAX
 function enqueue_load_more_photos_script() {
+  // Enregistrer les scripts
   wp_enqueue_script('pagination', get_stylesheet_directory_uri() . '/js/pagination.js', array('jquery'), null, true);
-  wp_enqueue_script('filters', get_stylesheet_directory_uri() . '/js/filtres.js', array('jquery'), null, true);
-  wp_localize_script('pagination', 'ajax_filtres', array(
+  wp_enqueue_script('filtres', get_stylesheet_directory_uri() . '/js/filtres.js', array('jquery'), null, true);
+
+  // Paramètres communs à passer aux scripts
+  $ajax_params = array(
     'ajax_url' => admin_url('admin-ajax.php'),
-    //'ajax_nonce' => wp_create_nonce('filtre_photos_nonce')
-));
+    'ajax_nonce' => wp_create_nonce('load_more_photos_nonce')
+);
+
+  // Localiser les scripts
+  wp_localize_script('pagination', 'ajax_filtres', $ajax_params);
+  wp_localize_script('filtres', 'ajax_filtres', $ajax_params);
 }
 add_action('wp_enqueue_scripts', 'enqueue_load_more_photos_script');
 
 
 // Fonction pour charger plus de photos via AJAX
 function load_more_photos() {
+  check_ajax_referer('load_more_photos_nonce', 'nonce'); // Vérifier le nonce
   $offset = isset($_POST['offset']) ? absint($_POST['offset']) : 0;
   $categorie = isset($_POST['categorie']) ? sanitize_text_field($_POST['categorie']) : '';
   $format = isset($_POST['format']) ? sanitize_text_field($_POST['format']) : '';
   $order = isset($_POST['order']) ? $_POST['order'] : 'DESC';
+  error_log('Order parameter received: ' . $order);  // Log this to check what's received
 
-  // Vérifiez le nonce pour la sécurité
-  //check_ajax_referer('filtre_photos_nonce', 'nonce');
-  //error_log('Received nonce: ' . $_POST['nonce']);
- // $check_nonce = check_ajax_referer('filtre_photos_nonce', 'nonce', false);
-  //error_log('Nonce check result: ' . ($check_nonce ? 'passed' : 'failed'));
-
-  // Récupère le numéro de page à partir des données POST
-  //$offset = intval($_POST['offset']);
-  // Obtenez l'offset de la requête AJAX
- // $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
- // $filter = isset($_POST['filter']) ? $_POST['filter'] : []; // Assurez-vous de valider et de nettoyer ce contenu.
-
- $args = array(
-  'post_type'      => 'photo',     // Type de publication : photo
-  'posts_per_page' => 8,          // Nombre de photos par page (-1 pour toutes)
-  'offset'         => $offset,
-  'orderby'        => 'date',      // Tri aléatoire
-  'order'          => $order,       // Ordre ascendant
   
-);
 
-if ($cat) {
-  $args['tax_query'] = array(
-      array(
-          'taxonomy' => 'category',
+  $args = [
+  'post_type' => 'photo',
+  'posts_per_page' => 8,
+  'offset' => $offset,
+  'orderby' => 'date',
+  'order' => $order,
+  'tax_query' => []
+];
+
+// Autres conditions de taxonomie si nécessaire
+if (!empty($categorie) || !empty($format)) {
+  $args['tax_query']['relation'] = 'AND';
+  if (!empty($categorie)) {
+      $args['tax_query'][] = array(
+          'taxonomy' => 'categorie',
           'field' => 'slug',
-          'terms' => $cat,
-      ),
-  );
-}
+          'terms' => $categorie
+      );
+  }
 
-if ($format) {
-  $args['meta_query'] = array(
-      array(
-          'key' => 'format',
-          'value' => $format,
-          'compare' => '=',
-      ),
-  );
+if (!empty($format)) {
+  $args['tax_query'][] = [
+      'taxonomy' => 'format',
+      'field' => 'slug',
+      'terms' => $format
+  ];
 }
-
-if ($year) {
-  $args['date_query'] = array(
-      array(
-          'year' => $year,
-      ),
-  );
 }
-
-    // Exécute la requête WP_Query avec les arguments
-    $query = new WP_Query($args);
-    $output = '';
+  // Exécute la requête WP_Query avec les arguments
+  $query = new WP_Query($args);
+  $output = '';
 
     // Vérifie s'il y a des photos dans la requête
     if ($query->have_posts()) {
@@ -129,75 +119,24 @@ if ($year) {
           get_template_part('templates-parts/block-photo', get_post_format()); 
           $output .= ob_get_clean();
         }
-        
-        // Réinitialise les données post
+
+        // Détermine si d'autres photos sont disponibles
+    $has_more_photos = $query->found_posts > $offset + $query->post_count;
+
+            // Réinitialise les données post
       wp_reset_postdata();
       wp_send_json_success($output);
     } else {
-      wp_send_json_success('');
-  }
+      wp_send_json_error('No posts found');
+    }
     
-  wp_die();
+  wp_die(); // Arrête l'exécution pour retourner une réponse propre
 }
 
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');  
 
-function filter_photos() {
-  $filters = $_POST['filters'];
 
-  $args = array(
-      'post_type' => 'photo',
-      'posts_per_page' => -1,
-      'orderby' => 'date',
-  );
-
-  if (isset($filters['categorie'])) {
-      $args['tax_query'] = array(
-          array(
-              'taxonomy' => 'categorie',
-              'field' => 'slug',
-              'terms' => $filters['categorie'],
-          ),
-      );
-  }
-
-  if (isset($filters['format'])) {
-      $args['tax_query'][] = array(
-          'taxonomy' => 'format',
-          'field' => 'slug',
-          'terms' => $filters['format'],
-      );
-  }
-
-  if (isset($filters['annees'])) {
-      if ($filters['annees'] === 'date_asc') {
-          $args['order'] = 'ASC';
-      } elseif ($filters['annees'] === 'date_desc') {
-          $args['order'] = 'DESC';
-      }
-  }
-
-  $query = new WP_Query($args);
-
-  if ($query->have_posts()) {
-      ob_start();
-      while ($query->have_posts()) {
-          $query->the_post();
-          get_template_part('templates-parts/block-photo', get_post_format());
-      }
-      wp_reset_postdata();
-      $response = ob_get_clean();
-  } else {
-      $response = '<p>Aucune photo trouvée.</p>';
-  }
-
-  wp_send_json_success($response);
-  wp_die();
-}
-
-add_action('wp_ajax_filter_photos', 'filter_photos');
-add_action('wp_ajax_nopriv_filter_photos', 'filter_photos');
 
 
 // Fonction pour retirer la clause "AND (0 = 1)" de la requête WHERE

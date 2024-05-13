@@ -8,6 +8,7 @@ function attachEventsToImages() {
 function loadMoreContent() {
   const offset = jQuery("#load-more-btn").data("offset");
   const ajaxurl = ajax_filtres.ajax_url;
+  const nonce = ajax_filtres.ajax_nonce; // Récupérer le nonce depuis les paramètres localisés
 
   // Utilisation d'AJAX pour charger plus de contenu
   jQuery.ajax({
@@ -16,6 +17,7 @@ function loadMoreContent() {
     data: {
       action: "load_more_photos", // Assurez-vous que ce soit le bon action hook
       offset: offset,
+      nonce: nonce, // Inclure le nonce dans la requête
     },
     success: function (response) {
       handleLoadResponse(response, offset);
@@ -66,3 +68,6 @@ jQuery(document).on(
     loadMoreContent();
   }
 );
+
+// Ce message s'affichera dans la console lorsque le script JS sera chargé
+console.log("Le JS du bouton charger plus s'est correctement chargé");
