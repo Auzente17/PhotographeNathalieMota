@@ -1,12 +1,19 @@
-// Fonction pour attacher des événements aux images chargées
+/**
+ * Attache des événements aux images pour activer la lightbox lorsqu'elles sont cliquées.
+ */
 function attachEventsToImages() {
-  // Votre logique d'attache d'événements ici
   console.log("Les photos se chargent");
+  const images = document.querySelectorAll(".icon-fullscreen");
+  images.forEach((image) => {
+    image.removeEventListener("click", imageClickHandler); // Supprimer l'ancien gestionnaire pour éviter les doublons
+    image.addEventListener("click", imageClickHandler); // Attacher le nouvel gestionnaire
+  });
 }
-
-// Fonction pour gérer le chargement du contenu additionnel
+/**
+ * Charge plus de contenu en utilisant AJAX en fonction de l'offset actuel.
+ */
 function loadMoreContent() {
-  const offset = jQuery("#load-more-btn").data("offset");
+  const offset = parseInt(jQuery("#load-more-btn").data("offset"), 10);
   const ajaxurl = ajax_filtres.ajax_url;
   const nonce = ajax_filtres.ajax_nonce; // Récupérer le nonce depuis les paramètres localisés
 
@@ -15,9 +22,9 @@ function loadMoreContent() {
     url: ajaxurl,
     type: "post",
     data: {
-      action: "load_more_photos", // Assurez-vous que ce soit le bon action hook
+      action: "load_more_photos",
       offset: offset,
-      nonce: nonce, // Inclure le nonce dans la requête
+      nonce: nonce, // Passer le nonce pour la validation côté serveur.
     },
     success: function (response) {
       handleLoadResponse(response, offset);
@@ -29,45 +36,48 @@ function loadMoreContent() {
   });
 }
 
-// Fonction pour traiter la réponse du chargement AJAX
-function handleLoadResponse(response, offset) {
-  if (response == "Aucune photo trouvée.") {
-    handleNoPhotos();
-  } else {
-    appendPhotos(response);
-    updateOffset(offset);
-  }
-}
-
-// Fonction pour masquer le bouton "viewMore" en cas de l'absence de photos
-function handleNoPhotos() {
-  jQuery("#load-more-btn").hide();
-  console.log("Aucune photo n'est disponible.");
-}
-
-// Fonction pour ajouter la réponse à la fin du conteneur des photos
-function appendPhotos(response) {
+/**
+ * Traite la réponse AJAX pour ajouter des photos et mettre à jour l'interface.
+ * @param {Object} response - La réponse du serveur.
+ * @param {number} initialOffset - L'offset initial avant le chargement des nouvelles photos.
+ */
+function handleLoadResponse(response, initialOffset) {
+  console.log("Response from AJAX request: ", response);
   if (response && response.data) {
-    jQuery("#liste__photo").append(response.data);
-    attachEventsToImages();
+    appendPhotos(response);
+    const newOffset = initialOffset + 8; // Augmenter l'offset de 8 après chaque chargement.
+    jQuery("#load-more-btn").data("offset", newOffset); // Mettre à jour l'offset stocké dans le bouton
+    attachEventsToImages(); // Ré-attacher les événements pour la lightbox sur les nouvelles images.
+  } else if (response === "Aucune photo trouvée.") {
+    handleNoPhotos();
   } else {
     console.error("Erreur: Aucune donnée reçue.");
   }
 }
 
-// Fonction pour mettre à jour l'offset pour la prochaine requête
-function updateOffset(offset) {
-  jQuery("#load-more-btn").data("offset", offset + 8);
+/**
+ * Cache le bouton "Charger plus" si aucune photo supplémentaire n'est disponible.
+ */
+function handleNoPhotos() {
+  jQuery("#load-more-btn").hide();
+  console.log("Aucune photo n'est disponible.");
 }
 
-// Utiliser la délégation d'événement sur un parent stable
-jQuery(document).on(
-  "click",
-  "#load-more-container #load-more-btn",
-  function () {
-    loadMoreContent();
-  }
-);
+/**
+ * Ajoute les nouvelles photos chargées au conteneur de la liste des photos.
+ * @param {Object} response - La réponse contenant les données des nouvelles photos.
+ */
+function appendPhotos(response) {
+  jQuery("#liste__photo").append(response.data);
+}
 
-// Ce message s'affichera dans la console lorsque le script JS sera chargé
+// Configuration de l'événement de clic pour le bouton de chargement supplémentaire.
+jQuery(document)
+  .off("click", "#load-more-container #load-more-btn")
+  .on("click", "#load-more-container #load-more-btn", function () {
+    console.log("Bouton cliqué");
+    loadMoreContent();
+  });
+
+// Message pour indiquer que le script a été chargé correctement.
 console.log("Le JS du bouton charger plus s'est correctement chargé");

@@ -29,7 +29,7 @@
 }
 
 /* Styles pour une option activée (clic) */
-.select2-container--default .select2-results__option:active {
+.select2-container--default .select2-results__option.select2-results:active {
   background-color: #fe5858 !important;
   color: white !important;
 }

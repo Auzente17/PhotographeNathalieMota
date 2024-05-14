@@ -45,13 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Fonction pour attacher les événements aux images
-  function attachEventsToImages() {
+  window.attachEventsToImages = function () {
     const images = document.querySelectorAll(".icon-fullscreen");
     images.forEach((image) => {
       image.removeEventListener("click", imageClickHandler);
       image.addEventListener("click", imageClickHandler);
     });
-  }
+  };
 
   // Attachement des événements aux images lors du chargement initial
   attachEventsToImages();
