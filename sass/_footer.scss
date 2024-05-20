@@ -29,3 +29,14 @@ footer {
     }
   }
 }
+/* Règles CSS pour les écrans de taille mobile */
+@media (max-width: 765px) {
+  footer .footer-menu {
+    flex-direction: column; /* Empile les éléments du menu verticalement */
+    gap: 10px; /* Espacement vertical entre les éléments du menu */
+
+    li {
+      margin: 10px 0; /* Réduit la marge pour les éléments de liste sur les petits écrans */
+    }
+  }
+}

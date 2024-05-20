@@ -16,7 +16,7 @@ if ($block__photo->have_posts()) :
     set_query_var('photo_block_args', array('context' => 'front-page'));
 
     // Boucle pour afficher chaque photo
-    while ($block__photo->have_posts()) :
+    while ($block__photo->have_posts()) :;
         $block__photo->the_post();
     ?>
         <div class="photo-item">

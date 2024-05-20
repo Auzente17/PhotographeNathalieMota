@@ -61,7 +61,7 @@ $nextThumbnailURL = $nextPost ? get_the_post_thumbnail_url($nextPost->ID, 'thumb
 
         <div class="navPhotos">
             <div class="miniature" id="miniature"></div>
-                <!-- Afficher la miniature de la photo actuelle de façon permanente -->
+                
                                   
             <div class="navArrow">
                 <!-- Affiche les flèches de navigation vers les photos précédentes et suivantes -->

@@ -2,7 +2,7 @@
 // Pour récupérer l'URL de la photo
 $photoUrl = get_the_post_thumbnail_url(get_the_ID(), 'large'); 
 
-// vérifier si l'URL de l'imagemise en avant a été récupéré avec succès
+// vérifier si l'URL de l'image mise en avant a été récupéré avec succès
 if ($photoUrl) {
        
    

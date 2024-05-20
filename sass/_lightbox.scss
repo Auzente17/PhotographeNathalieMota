@@ -121,6 +121,10 @@
 // RESPONSIVE //
 
 @media (max-width: 765px) {
+  .lightbox {
+    display: none !important; /* Cacher la lightbox sur les écrans mobiles */
+  }
+
   .lightbox .lightbox-previous {
     left: 2%;
   }

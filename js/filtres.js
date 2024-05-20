@@ -13,7 +13,10 @@ const updatePhotos = (loadMore = false) => {
 
   // Ajoute l'offset actuel si l'on souhaite charger plus de photos.
   if (loadMore) {
-    formData.append("offset", document.querySelectorAll(".block_photo").length);
+    formData.append(
+      "offset",
+      document.querySelectorAll(".block__photo").length
+    );
   }
 
   // Envoie la requête AJAX à WordPress
