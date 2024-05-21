@@ -80,65 +80,66 @@ function load_more_photos() {
   $format = isset($_POST['format']) ? sanitize_text_field($_POST['format']) : '';
   $order = isset($_POST['order']) ? $_POST['order'] : 'DESC';
   
-// Configuration des arguments pour WP_Query selon les paramètres reçus.
+  // Configuration des arguments pour WP_Query selon les paramètres reçus.
   $args = [
-  'post_type' => 'photo',
-  'posts_per_page' => 8,
-  'offset' => $offset,
-  'orderby' => 'date',
-  'order' => $order,
-  'tax_query' => []
-];
+      'post_type' => 'photo',
+      'posts_per_page' => 8,
+      'offset' => $offset,
+      'orderby' => 'date',
+      'order' => $order,
+      'tax_query' => []
+  ];
 
-// Ajout de conditions supplémentaires de taxonomie si nécessaire.
-if (!empty($categorie) || !empty($format)) {
-  $args['tax_query']['relation'] = 'AND';
-  if (!empty($categorie)) {
-      $args['tax_query'][] = array(
+  // Ajout de conditions supplémentaires de taxonomie si nécessaire.
+  if (!empty($categorie) || !empty($format)) {
+      $args['tax_query']['relation'] = 'AND';
+      if (!empty($categorie)) {
+        $args['tax_query'][] = [
           'taxonomy' => 'categorie',
           'field' => 'slug',
           'terms' => $categorie
-      );
+      ];
+      }
+
+      if (!empty($format)) {
+          $args['tax_query'][] = [
+              'taxonomy' => 'format',
+              'field' => 'slug',
+              'terms' => $format
+          ];
+      }
   }
 
-if (!empty($format)) {
-  $args['tax_query'][] = [
-      'taxonomy' => 'format',
-      'field' => 'slug',
-      'terms' => $format
-  ];
-}
-}
-// Exécution de la requête WP_Query.
-$query = new WP_Query($args);
-$output = '';
+  // Exécution de la requête WP_Query.
+  $query = new WP_Query($args);
+  $output = '';
 
-// Vérifie s'il y a des photos dans la requête
-if ($query->have_posts()) {
-  // Boucle à travers les photos
-  while ($query->have_posts()) {
-      $query->the_post();
-      ob_start();
-      // Inclusion du template pour afficher un bloc de photo.
-      get_template_part('templates-parts/block-photo', get_post_format()); 
-      $output .= ob_get_clean();
+  // Vérifie s'il y a des photos dans la requête
+  if ($query->have_posts()) {
+      // Boucle à travers les photos
+      while ($query->have_posts()) {
+          $query->the_post();
+          ob_start();
+          // Inclusion du template pour afficher un bloc de photo.
+          get_template_part('templates-parts/block-photo', get_post_format()); 
+          $output .= ob_get_clean();
+      }
+
+      // Vérification de la disponibilité d'autres photos.
+      $has_more_photos = $query->found_posts > $offset + $query->post_count;
+
+      // Réinitialisation des données globales du post.
+      wp_reset_postdata();
+
+      // Envoi de la réussite avec le contenu généré et l'état des photos restantes.
+      wp_send_json_success(['html' => $output, 'has_more_photos' => $has_more_photos]);
+  } else {
+      // En cas d'absence de posts, envoi d'une erreur.
+      wp_send_json_error('');
   }
-
-  // Vérification de la disponibilité d'autres photos.
-  $has_more_photos = $query->found_posts > $offset + $query->post_count;
-
-  // Réinitialisation des données globales du post.
-  wp_reset_postdata();
-
-  // Envoi de la réussite avec le contenu généré.
-  wp_send_json_success($output);
-} else {
-  // En cas d'absence de posts, envoi d'une erreur.
-  wp_send_json_error('No posts found');
-}
   
-// Arrêt de l'exécution pour retourner une réponse propre.
-wp_die(); 
+  // Arrêt de l'exécution pour retourner une réponse propre.
+  wp_die(); 
 }
 
 // Ajout des actions pour les requêtes AJAX pour les utilisateurs connectés et non connectés.
